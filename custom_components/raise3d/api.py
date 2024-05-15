@@ -8,23 +8,23 @@ import aiohttp
 import async_timeout
 
 
-class IntegrationBlueprintApiClientError(Exception):
+class Raise3dClientError(Exception):
     """Exception to indicate a general API error."""
 
 
-class IntegrationBlueprintApiClientCommunicationError(
-    IntegrationBlueprintApiClientError
+class Raise3dClientCommunicationError(
+    Raise3dClientError
 ):
     """Exception to indicate a communication error."""
 
 
-class IntegrationBlueprintApiClientAuthenticationError(
-    IntegrationBlueprintApiClientError
+class Raise3dClientAuthenticationError(
+    Raise3dClientError
 ):
     """Exception to indicate an authentication error."""
 
 
-class IntegrationBlueprintApiClient:
+class Raise3dClient:
     """Sample API Client."""
 
     def __init__(
@@ -70,21 +70,21 @@ class IntegrationBlueprintApiClient:
                     json=data,
                 )
                 if response.status in (401, 403):
-                    raise IntegrationBlueprintApiClientAuthenticationError(
+                    raise Raise3dClientAuthenticationError(
                         "Invalid credentials",
                     )
                 response.raise_for_status()
                 return await response.json()
 
         except asyncio.TimeoutError as exception:
-            raise IntegrationBlueprintApiClientCommunicationError(
+            raise Raise3dClientCommunicationError(
                 "Timeout error fetching information",
             ) from exception
         except (aiohttp.ClientError, socket.gaierror) as exception:
-            raise IntegrationBlueprintApiClientCommunicationError(
+            raise Raise3dClientCommunicationError(
                 "Error fetching information",
             ) from exception
         except Exception as exception:  # pylint: disable=broad-except
-            raise IntegrationBlueprintApiClientError(
+            raise Raise3dClientError(
                 "Something really wrong happened!"
             ) from exception

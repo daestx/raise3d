@@ -4,13 +4,13 @@ from __future__ import annotations
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 
 from .const import DOMAIN
-from .coordinator import BlueprintDataUpdateCoordinator
-from .entity import IntegrationBlueprintEntity
+from .coordinator import Raise3dDataUpdateCoordinator
+from .entity import Raise3dEntity
 
 ENTITY_DESCRIPTIONS = (
     SensorEntityDescription(
-        key="integration_blueprint",
-        name="Integration Sensor",
+        key="raise3d",
+        name="Raise3D Sensor",
         icon="mdi:format-quote-close",
     ),
 )
@@ -20,7 +20,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
     """Set up the sensor platform."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_devices(
-        IntegrationBlueprintSensor(
+        Raise3dSensor(
             coordinator=coordinator,
             entity_description=entity_description,
         )
@@ -28,7 +28,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
     )
 
 
-class IntegrationBlueprintSensor(IntegrationBlueprintEntity, SensorEntity):
+class Raise3dSensor(Raise3dEntity, SensorEntity):
     """integration_blueprint Sensor class."""
 
     def __init__(

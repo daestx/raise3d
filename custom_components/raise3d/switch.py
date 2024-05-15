@@ -4,13 +4,13 @@ from __future__ import annotations
 from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 
 from .const import DOMAIN
-from .coordinator import BlueprintDataUpdateCoordinator
-from .entity import IntegrationBlueprintEntity
+from .coordinator import Raise3dDataUpdateCoordinator
+from .entity import Raise3dEntity
 
 ENTITY_DESCRIPTIONS = (
     SwitchEntityDescription(
-        key="integration_blueprint",
-        name="Integration Switch",
+        key="raise3d",
+        name="Raise3D Switch",
         icon="mdi:format-quote-close",
     ),
 )
@@ -20,7 +20,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
     """Set up the sensor platform."""
     coordinator = hass.data[DOMAIN][entry.entry_id]
     async_add_devices(
-        IntegrationBlueprintSwitch(
+        Raise3dSwitch(
             coordinator=coordinator,
             entity_description=entity_description,
         )
@@ -28,12 +28,12 @@ async def async_setup_entry(hass, entry, async_add_devices):
     )
 
 
-class IntegrationBlueprintSwitch(IntegrationBlueprintEntity, SwitchEntity):
+class Raise3dSwitch(Raise3dEntity, SwitchEntity):
     """integration_blueprint switch class."""
 
     def __init__(
         self,
-        coordinator: BlueprintDataUpdateCoordinator,
+        coordinator: Raise3dDataUpdateCoordinator,
         entity_description: SwitchEntityDescription,
     ) -> None:
         """Initialize the switch class."""

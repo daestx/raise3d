@@ -1,5 +1,6 @@
 {
-    "name": "ludeeus/integration_blueprint",
+    "comment": "https://containers.dev/implementors/json_reference/",
+    "name": "daestx/raise3d",
     "image": "mcr.microsoft.com/devcontainers/python:3.11-bullseye",
     "postCreateCommand": "scripts/setup",
     "forwardPorts": [

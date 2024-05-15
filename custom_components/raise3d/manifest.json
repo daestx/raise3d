@@ -1,0 +1,13 @@
+{
+  "comment": "https://developers.home-assistant.io/docs/creating_integration_manifest",
+  "domain": "raise3d",
+  "name": "Raise3D",
+  "codeowners": [
+    "@daestx"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/daestx/raise3d",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/daestx/raise3d/issues",
+  "version": "0.0.0"
+}

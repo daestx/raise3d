@@ -8,7 +8,7 @@ from .const import ATTRIBUTION, DOMAIN, NAME, VERSION
 from .coordinator import BlueprintDataUpdateCoordinator
 
 
-class IntegrationBlueprintEntity(CoordinatorEntity):
+class Raise3dEntity(CoordinatorEntity):
     """BlueprintEntity class."""
 
     _attr_attribution = ATTRIBUTION
