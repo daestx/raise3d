@@ -1,14 +1,21 @@
-"""Custom integration to integrate integration_blueprint with Home Assistant.
-
-For more details about this integration, please refer to
-https://github.com/ludeeus/integration_blueprint
+"""Custom integration for Raise3D printers with Home Assistant.
 """
+import voluptuous as vol
+
 from __future__ import annotations
+
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+
+from .const import (
+    DEFAULT_HOST,
+    DOMAIN,
+    DEFAULT_NAME,
+    DEFAULT_SCAN_INTERVAL,
+)
 
 from .api import Raise3dClient
 from .const import DOMAIN
