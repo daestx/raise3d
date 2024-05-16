@@ -1,5 +1,5 @@
+
 {
-  "comment": "https://developers.home-assistant.io/docs/creating_integration_manifest",
   "domain": "raise3d",
   "name": "Raise3D",
   "codeowners": [
