@@ -1,4 +1,4 @@
-"""Constants for Raise3D printer configuration"""
+"""Constants for Raise3D printer configuration."""
 from logging import Logger, getLogger
 
 LOGGER: Logger = getLogger(__package__)

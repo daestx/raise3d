@@ -1,4 +1,4 @@
-"""Raise3dEntity class"""
+"""Raise3dEntity class."""
 from __future__ import annotations
 
 from homeassistant.helpers.entity import DeviceInfo

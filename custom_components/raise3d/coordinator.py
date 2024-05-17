@@ -1,4 +1,4 @@
-"""DataUpdateCoordinator for Raise3d"""
+"""DataUpdateCoordinator for Raise3d."""
 from __future__ import annotations
 
 from datetime import timedelta

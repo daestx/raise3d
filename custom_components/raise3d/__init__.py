@@ -1,14 +1,12 @@
-"""Custom integration for Raise3D printers with Home Assistant.
-"""
-import voluptuous as vol
-
+"""Custom integration for Raise3D printers with Home Assistant."""
 from __future__ import annotations
-
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+
+import voluptuous as vol
 
 from .const import (
     DOMAIN,

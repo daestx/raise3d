@@ -1,4 +1,4 @@
-"""Binary sensor platform for integration_blueprint."""
+"""Binary sensor platform for Rais3D."""
 from __future__ import annotations
 
 from homeassistant.components.binary_sensor import (

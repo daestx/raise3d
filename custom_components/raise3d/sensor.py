@@ -1,4 +1,4 @@
-"""Sensor platform for Raise3D"""
+"""Sensor platform for Raise3D."""
 from __future__ import annotations
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
