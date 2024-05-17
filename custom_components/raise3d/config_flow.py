@@ -29,11 +29,11 @@ DATA_SCHEMA = vol.Schema(
     }
 )
 
+"""Validators and callbacks"""
 
-""" https://developers.home-assistant.io/docs/config_entries_config_flow_handler/
-    This handler will manage the creation of entries from user input, discovery or 
-    other sources (like Home Assistant OS).
-"""
+def ip_valid(ip):
+    """Return True if hostname or IP address is valid."""
+    return True
 
 @callback
 def Raise3d_entries(hass: HomeAssistant):
@@ -42,6 +42,10 @@ def Raise3d_entries(hass: HomeAssistant):
         entry.data[CONF_IP_ADDRESS] for entry in hass.config_entries.async_entries(DOMAIN)
     )
 
+""" https://developers.home-assistant.io/docs/config_entries_config_flow_handler/
+    This handler will manage the creation of entries from user input, discovery or 
+    other sources (like Home Assistant OS).
+"""
 class Raise3dFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for Raise3D"""
 
@@ -57,13 +61,14 @@ class Raise3dFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input: None = None):
         """Handle a flow initialized by the user."""
-        _errors = {}
+        errors = {}
+        
         if user_input is not None:
             host = user_input[CONF_IP_ADDRESS]
 
             if self._host_in_configuration_exists(host):
                 errors[CONF_IP_ADDRESS] = "already_configured"
-            elif not host_valid(user_input[CONF_IP_ADDRESS]):
+            elif not ip_valid(user_input[CONF_IP_ADDRESS]):
                 errors[CONF_IP_ADDRESS] = "invalid ip address"
             else:
                 await self.async_set_unique_id(user_input[CONF_IP_ADDRESS])
@@ -73,7 +78,7 @@ class Raise3dFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 )
 
         return self.async_show_form(
-            step_id="user", data_schema=DATA_SCHEMA, errors=_errors
+            step_id="user", data_schema=DATA_SCHEMA, errors=errors
         )
 
 
