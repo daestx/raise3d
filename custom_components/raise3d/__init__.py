@@ -11,10 +11,11 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import (
-    DEFAULT_HOST,
     DOMAIN,
+    DEFAULT_IP,
     DEFAULT_NAME,
     DEFAULT_SCAN_INTERVAL,
+    DEFAULT_PORT
 )
 
 from .api import Raise3dClient

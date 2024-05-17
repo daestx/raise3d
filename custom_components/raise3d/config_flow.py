@@ -1,11 +1,14 @@
-"""Adds config flow for Blueprint."""
+"""Adds config flow for Raise3dEntity"""
 from __future__ import annotations
 
 import voluptuous as vol
 from homeassistant import config_entries
-from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
+from homeassistant.const import (
+    CONF_NAME, 
+    CONF_USERNAME,
+)
 
 from .api import (
     Raise3dClient,
@@ -13,11 +16,15 @@ from .api import (
     Raise3dClientCommunicationError,
     Raise3dClientError,
 )
+
 from .const import DOMAIN, LOGGER
 
-
+""" https://developers.home-assistant.io/docs/config_entries_config_flow_handler/
+    This handler will manage the creation of entries from user input, discovery or 
+    other sources (like Home Assistant OS).
+"""
 class Raise3dFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow for Blueprint."""
+    """Config flow for Raise3D"""
 
     VERSION = 1
 

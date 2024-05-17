@@ -11,3 +11,4 @@ ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
 DEFAULT_NAME = "Raise3D"
 DEFAULT_SCAN_INTERVAL = 10
 DEFAULT_PORT = 10800
+DEFAULT_IP = "aaa.bbb.ccc.ddd"
