@@ -1,0 +1,4547 @@
+<!DOCTYPE html>
+<!-- saved from url=(0028)http://192.168.110.25:10800/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="./192.168.110.25_files/api-style.css">
+		<script src="./192.168.110.25_files/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body style="">
+		<div class="api-cont">
+			<div class="tab-close img reload-002">
+			</div>
+			<div class="top top-007 img">
+			</div>
+			<div class="api-logo Logo-01 img">
+			</div>
+			<div class="api-title">
+				Raise Touch Remote Access API
+			</div>
+			<div class="api-text">
+				<h2>Structure of the REST URIs</h2>
+				<p>The template of API URI like http://{ip}:10800/v1/{api interface}</p>
+				<p>{ip} represents printer IP</p>
+				<p>Example: http://192.168.0.57:10800/v1/login</p>
+				<p>Attention: Url need to be encoded to UTF-8 to prevent special characters</p>
+				<p>Example: http://192.168.0.57:10800/v1/fileops/imagedownload?data_path=Local%2Fmmm%2Fcat.data&amp;width=32&amp;height=32&amp;token=544b232705ec326fc0919a8ac4daf926</p>
+			</div>
+			<div class="api-error">
+				<h2>HTTP Response Status Code</h2>
+				<table class="aui">
+					<tbody><tr>
+						<th class="th-par">parameter</th>
+						<th>description</th>
+					</tr>
+					<tr>
+						<td><code>200 OK</code></td>
+						<td>
+							<p>success</p>
+						</td>
+					</tr>
+					<tr>
+						<td><code>400 Bad Request</code></td>
+						<td>
+							<p>Please check whether the parameters in the sent data are missing or incorrect, 
+								or the parameter format does not match the content-type</p>
+						</td>
+					</tr>
+					<tr>
+						<td><code>404 Not Found</code></td>
+						<td>
+							<p>Resource not found or API interface address error</p>
+						</td>
+					</tr>
+					<tr>
+						<td><code>405 Method Not Allowed</code></td>
+						<td>
+							<p>Request method does not support, currently only supports POST, GET, OPTION request</p>
+						</td>
+					</tr>
+					<tr>
+						<td><code>413 Request Entity Too Large</code></td>
+						<td>
+							<p>Transmission data is too large, non-file transmission ceiling 1MB</p>
+						</td>
+					</tr>
+					<tr>
+						<td><code>415 Unsupported Media Type</code></td>
+						<td>
+							<p>The interface that is accessed does not support this data format</p>
+						</td>
+					</tr>
+					<tr>
+						<td><code>429 Too Many Requests</code></td>
+						<td>
+							<p>Too many requests, please visit later</p>
+						</td>
+					</tr>
+					<tr>
+						<td><code>500 Internal Server Error</code></td>
+						<td>
+							<p>You need to restart the API.Turn off the Enable Remote Access API switch and turn on the swicth that will restart the API.</p>
+						</td>
+					</tr>
+				</tbody></table>
+			</div>
+			<div class="api-panel">
+				<h2>Resources</h2>
+
+				<p class="title">User</p>
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Login</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/login</span>
+						<p>User login and get new token</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/login?sign=ed416d3d02cf58efe4f65d3bbc8a4dc6×tamp=15<a class="sip-caller-node" href="sip:0347736961@sip4.w3tel.net?method=call">0347736961</a>5</em></p>
+						<!--<div class="lebal-error">
+                                                <span class="lebal-red">200 </span>
+						<span>the maximum results to fetch</span>
+                                        </div>-->
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>sign</code></td>
+								<td><em>string</em></td>
+								<td>
+									<p>Signature, used to verify whether it is a legitimate client.
+										<br>The formula to generate sign like
+										<br>md5(sha1("password=123456×tamp=15<a class="sip-caller-node" href="sip:0347736961@sip4.w3tel.net?method=call">0347736961</a>5"))
+										<br>123456 represents password
+										<br>15<a class="sip-caller-node" href="sip:0347736961@sip4.w3tel.net?method=call">0347736961</a>5 represents timestamp parament
+										<br>example: 
+										<br>step 1：use sha1 to encrypt "password=123456×tamp=15<a class="sip-caller-node" href="sip:0347736961@sip4.w3tel.net?method=call">0347736961</a>5"
+										<br>step 2： if the encryption result of step 1 is garbled , then converts it to a hexadecimal string as "17ab297629a0662dfdd75bb15ad67465f302819b"
+										<br>step 3：use MD5 to encrypt the result of step 2
+										<br>step 4: if the encryption result of step 3 is garbled , then converts it to a hexadecimal string as the final result "ed416d3d02cf58efe4f65d3bbc8a4dc6"
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<td><code>timestamp</code></td>
+								<td><em>int</em></td>
+								<td>
+									<p>the number of milliseconds from (1970-01-01 00:00:00.000) to now</p>
+								</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of a new token</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "token": "e4e4ab1407dfec7c5beb566173d81340"
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10000,
+    "msg": "sign error or password error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>token identification, access to other APIs must use the identity, the token valid 24 hours</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td><code>10000</code></td>
+								<td><em>sign error or password error</em></td>
+								<td>signature error, not verified</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<p class="title api-panel_simple">Printer</p>
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Printer System Information</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/printer/system</span>
+						<p>Get printer system information, like language, brightness </p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/system?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of printer system information</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "Serial_number": "12345678942",
+    "api_version": "0.1.0.307",
+    "battery": 3.957441568374634,
+    "brightness": 1,
+    "date_time": "2017-08-16 07:08:59",
+    "firmware_version": "1.1.6-rev1",
+    "language": "English",
+    "machine_id": "16363785338095344960",
+    "machine_ip": "192.168.0.57",
+    "machine_name": "raise3d",
+    "model": "Raise3D N2Plus",
+    "nozzies_num": 2,
+    "storage_available": 4914340,
+    "update": "",
+    "version": "0.9.3.1165"
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 401,
+    "msg": "token error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>Serial_number</code></td>
+								<td><em>string</em></td>
+								<td>serial number</td>
+							</tr>
+							<tr>
+								<td><code>api_version</code></td>
+								<td><em>string</em></td>
+								<td>API VERSION</td>
+							</tr>
+							<tr>
+								<td><code>battery</code></td>
+								<td><em>float</em></td>
+								<td>battery voltage</td>
+							</tr>
+							<tr>
+								<td><code>brightness</code></td>
+								<td><em>int</em></td>
+								<td>screen brightness</td>
+							</tr>
+							<tr>
+								<td><code>date_time</code></td>
+								<td><em>string</em></td>
+								<td>UTC Time</td>
+							</tr>
+							<tr>
+								<td><code>firmware_version</code></td>
+								<td><em>string</em></td>
+								<td>firmware version</td>
+							</tr>
+							<tr>
+								<td><code>language</code></td>
+								<td><em>string</em></td>
+								<td>locales</td>
+							</tr>
+							<tr>
+								<td><code>machine_id</code></td>
+								<td><em>string</em></td>
+								<td>printer Id</td>
+							</tr>
+							<tr>
+								<td><code>machine_ip</code></td>
+								<td><em>string</em></td>
+								<td>printer IP</td>
+							</tr>
+							<tr>
+								<td><code>machine_name</code></td>
+								<td><em>string</em></td>
+								<td>printer name</td>
+							</tr>
+							<tr>
+								<td><code>model</code></td>
+								<td><em>string</em></td>
+								<td>the model of printer</td>
+							</tr>
+							<tr>
+								<td><code>nozzies_num</code></td>
+								<td><em>int</em></td>
+								<td>the number of nozzles</td>
+							</tr>
+							<tr>
+								<td><code>storage_available</code></td>
+								<td><em>int</em></td>
+								<td>available storage space in KB</td>
+							</tr>
+							<tr>
+								<td><code>update</code></td>
+								<td><em>string</em></td>
+								<td>update</td>
+							</tr>
+							<tr>
+								<td><code>version</code></td>
+								<td><em>string</em></td>
+								<td>printer system version</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Camera Information</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/printer/camera</span>
+						<p>Printer provides a camera http server, you can get information about the server by the api.</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/camera?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of camera information</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "camerserver_URI": ":30216/api/v1/camera/auth_stream",
+    "is_camera_connected": true,
+    "password": "368d8d",
+    "user_name": "raise3d_camera"
+  },
+  "status": 1
+}
+						</pre>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "camerserver_URI": ":30216/api/v1/camera/auth_stream",
+    "is_camera_connected": false,
+  },
+  "status": 1
+}
+						</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 401,
+    "msg": "token error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>camerserver_URI</code></td>
+								<td><em>string</em></td>
+								<td>camera http server URI include port like 30216</td>
+							</tr>
+							<tr>
+								<td><code>is_camera_connected</code></td>
+								<td><em>bool</em></td>
+								<td>the status of camera connection</td>
+							</tr>
+							<tr>
+								<td><code>password</code></td>
+								<td><em>string</em></td>
+								<td>password to login camera http server</td>
+							</tr>
+							<tr>
+								<td><code>user_name</code></td>
+								<td><em>string</em></td>
+								<td>user name to login camera http server</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Printer Running Status</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/printer/runningstatus</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/runningstatus?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of printer running status</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "running_status": "idle"
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 401,
+    "msg": "token error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>running_status</code></td>
+								<td><em>string</em></td>
+								<td>
+									<p>The running status of printer.
+									Possible status is</p>
+									<p>idle - the printer is idle</p>
+									<p>paused - the printer has paused current job</p>
+									<p>running - the printer is printing</p>
+									<p>busy - someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</p>
+									<p>completed - the printer is showing completed view</p>
+									<p>error - the serial port is disconnected or the printer is in safe mode</p>
+								</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Printer Basic Information</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/printer/basic</span>
+						<p>Get printer basic information that is unrelated to specific nozzle.</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/basic?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of printer basic information</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "fan_cur_speed": 0,
+    "fan_tar_speed": 0,
+    "feed_cur_rate": 100,
+    "feed_tar_rate": 100,
+    "heatbed_cur_temp": 25,
+    "heatbed_tar_temp": 0
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 401,
+    "msg": "token error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>fan_cur_speed</code></td>
+								<td><em>float</em></td>
+								<td>fan current speed</td>
+							</tr>
+							<tr>
+								<td><code>fan_tar_speed</code></td>
+								<td><em>float</em></td>
+								<td>fan target speed</td>
+							</tr>
+							<tr>
+								<td><code>feed_cur_rate</code></td>
+								<td><em>float</em></td>
+								<td>nozzle feed current speed</td>
+							</tr>
+							<tr>
+								<td><code>feed_tar_rate</code></td>
+								<td><em>float</em></td>
+								<td>nozzle feed target speed</td>
+							</tr>
+							<tr>
+								<td><code>heatbed_cur_temp</code></td>
+								<td><em>float</em></td>
+								<td>heatbed current temperature in degrees Celsius</td>
+							</tr>
+							<tr>
+								<td><code>heatbed_tar_temp</code></td>
+								<td><em>float</em></td>
+								<td>heatbed target temperature in degrees Celsius</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Left Nozzle Information</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/printer/nozzle1</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/nozzle1?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of left nozzle information</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "flow_cur_rate": 100,
+    "flow_tar_rate": 100,
+    "nozzle_cur_temp": 26,
+    "nozzle_tar_temp": 10
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 401,
+    "msg": "token error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>flow_cur_rate</code></td>
+								<td><em>float</em></td>
+								<td>left nozzle current extrusion speed</td>
+							</tr>
+							<tr>
+								<td><code>flow_tar_rate</code></td>
+								<td><em>float</em></td>
+								<td>left nozzle target extrusion speed</td>
+							</tr>
+							<tr>
+								<td><code>nozzle_cur_temp</code></td>
+								<td><em>float</em></td>
+								<td>left nozzle current temperature in degrees Celsius</td>
+							</tr>
+							<tr>
+								<td><code>nozzle_tar_temp</code></td>
+								<td><em>float</em></td>
+								<td>left nozzle target temperature in degrees Celsius</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Right Nozzle Information</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/printer/nozzle2</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/nozzle2?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of rignt nozzle information</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "flow_cur_rate": 100,
+    "flow_tar_rate": 100,
+    "nozzle_cur_temp": 26,
+    "nozzle_tar_temp": 10
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 401,
+    "msg": "token error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>flow_cur_rate</code></td>
+								<td><em>float</em></td>
+								<td>right nozzle current extrusion speed</td>
+							</tr>
+							<tr>
+								<td><code>flow_tar_rate</code></td>
+								<td><em>float</em></td>
+								<td>right nozzle target extrusion speed</td>
+							</tr>
+							<tr>
+								<td><code>nozzle_cur_temp</code></td>
+								<td><em>float</em></td>
+								<td>right nozzle current temperature in degrees Celsius</td>
+							</tr>
+							<tr>
+								<td><code>nozzle_tar_temp</code></td>
+								<td><em>float</em></td>
+								<td>right nozzle target temperature in degrees Celsius</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>no right nozzle</em></td>
+								<td>the printer does't have right nozzle</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Set Left Nozzle Temperature</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/printer/nozzle1/temp/set</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/nozzle1/temp/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "temperature":100
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>temperature</code></td>
+								<td><em>int</em></td>
+								<td>the value of temperature setting，Range(0~310℃)</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of set command success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "temperature error value(0~310)"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="5"><code>500</code></td>
+								<td><em>printer is in safe mode</em></td>
+								<td>If the hardware or serial port error, then it will enter the safe mode. 
+									In safe mode, you can not control the shift axis, advance and retreat material, 
+									set the job running state, set the temperature, set the extrusion head speed, 
+									set the flow rate, set the extrusion head speed etc.</td>
+							</tr>
+							<tr>
+								<td><em>printer is not ready</em></td>
+								<td>the printer is not fully started</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>serial is disconnected</em></td>
+								<td>Serial port is not connected, the possible reason is that the serial line is not connected or other hardware error</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10002</code></td>
+								<td><em>temperature error value(0~310)</em></td>
+								<td>the value of temperature setting is error and the range of the value is 0~310 ℃</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Set Right Nozzle Temperature</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/printer/nozzle2/temp/set</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/nozzle2/temp/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "temperature":100
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>temperature</code></td>
+								<td><em>int</em></td>
+								<td>the value of temperature setting，Range(0~310℃)</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of set command success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "temperature error value(0~310)"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>no right nozzle</em></td>
+								<td>the printer does't have right nozzle</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="5"><code>500</code></td>
+								<td><em>printer is in safe mode</em></td>
+								<td>If the hardware or serial port error, then it will enter the safe mode. 
+									In safe mode, you can not control the shift axis, advance and retreat material, 
+									set the job running state, set the temperature, set the extrusion head speed, 
+									set the flow rate, set the extrusion head speed etc.</td>
+							</tr>
+							<tr>
+								<td><em>printer is not ready</em></td>
+								<td>the printer is not fully started</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>serial is disconnected</em></td>
+								<td>Serial port is not connected, the possible reason is that the serial line is not connected or other hardware error</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10002</code></td>
+								<td><em>temperature error value(0~310)</em></td>
+								<td>the value of temperature setting is error and the range of the value is 0~310 ℃</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Set Left Nozzle Flow Rate</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/printer/nozzle1/flowrate/set</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/nozzle1/flowrate/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "flowrate":100
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>flowrate</code></td>
+								<td><em>int</em></td>
+								<td>the value of flowrate setting，Range (1~300)%</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of set command success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "flowrate error value(1~300)"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="5"><code>500</code></td>
+								<td><em>printer is in safe mode</em></td>
+								<td>If the hardware or serial port error, then it will enter the safe mode. 
+									In safe mode, you can not control the shift axis, advance and retreat material, 
+									set the job running state, set the temperature, set the extrusion head speed, 
+									set the flow rate, set the extrusion head speed etc.</td>
+							</tr>
+							<tr>
+								<td><em>printer is not ready</em></td>
+								<td>the printer is not fully started</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>serial is disconnected</em></td>
+								<td>Serial port is not connected, the possible reason is that the serial line is not connected or other hardware error</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10002</code></td>
+								<td><em>flowrate error value(1~300)</em></td>
+								<td>the value of flow rate setting is error and the range of the value is (1~300)%</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Set Right Nozzle Flow Rate</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/printer/nozzle2/flowrate/set</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/nozzle2/flowrate/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "flowrate":100
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>flowrate</code></td>
+								<td><em>int</em></td>
+								<td>the value of flowrate setting，Range (1~300)%</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of set command success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "flowrate error value(1~300)"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>no right nozzle</em></td>
+								<td>the printer does't have right nozzle</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="5"><code>500</code></td>
+								<td><em>printer is in safe mode</em></td>
+								<td>If the hardware or serial port error, then it will enter the safe mode. 
+									In safe mode, you can not control the shift axis, advance and retreat material, 
+									set the job running state, set the temperature, set the extrusion head speed, 
+									set the flow rate, set the extrusion head speed etc.</td>
+							</tr>
+							<tr>
+								<td><em>printer is not ready</em></td>
+								<td>the printer is not fully started</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>serial is disconnected</em></td>
+								<td>Serial port is not connected, the possible reason is that the serial line is not connected or other hardware error</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10002</code></td>
+								<td><em>flowrate error value(1~300)</em></td>
+								<td>the value of flow rate setting is error and the range of the value is (1~300)%</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Set Heat Bed Temperature</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/printer/heatbedtemp/set</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/heatbedtemp/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "temperature":60
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>temperature</code></td>
+								<td><em>int</em></td>
+								<td>the value of temperature setting，Range(0~110℃)</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of set command success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "temperature error value(0~110)"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="5"><code>500</code></td>
+								<td><em>printer is in safe mode</em></td>
+								<td>If the hardware or serial port error, then it will enter the safe mode. 
+									In safe mode, you can not control the shift axis, advance and retreat material, 
+									set the job running state, set the temperature, set the extrusion head speed, 
+									set the flow rate, set the extrusion head speed etc.</td>
+							</tr>
+							<tr>
+								<td><em>printer is not ready</em></td>
+								<td>the printer is not fully started</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>serial is disconnected</em></td>
+								<td>Serial port is not connected, the possible reason is that the serial line is not connected or other hardware error</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10002</code></td>
+								<td><em>temperature error value(0~110)</em></td>
+								<td>the value of temperature setting is error and the range of the value is 0~110 ℃</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Set Feed Rate</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/printer/feedrate/set</span>
+						<p>This API provides the function that you can set the speed of nozzles move</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/feedrate/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "feedrate":300
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>feedrate</code></td>
+								<td><em>int</em></td>
+								<td>the value of feedrate setting，Range(1~350)%</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of set command success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "feedrate error value(1~350)"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="5"><code>500</code></td>
+								<td><em>printer is in safe mode</em></td>
+								<td>If the hardware or serial port error, then it will enter the safe mode. 
+									In safe mode, you can not control the shift axis, advance and retreat material, 
+									set the job running state, set the temperature, set the extrusion head speed, 
+									set the flow rate, set the extrusion head speed etc.</td>
+							</tr>
+							<tr>
+								<td><em>printer is not ready</em></td>
+								<td>the printer is not fully started</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>serial is disconnected</em></td>
+								<td>Serial port is not connected, the possible reason is that the serial line is not connected or other hardware error</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10002</code></td>
+								<td><em>feedrate error value(1~350)</em></td>
+								<td>the value of feedrate setting is error and the range of the value is (1~350)%</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Set Fan Speed</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/printer/fanspeed/set</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/fanspeed/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "fanspeed":100
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>fanspeed</code></td>
+								<td><em>int</em></td>
+								<td>the value of fanspeed setting，Range(0~100)%</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of set command success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "fanspeed error value(0~100)"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="5"><code>500</code></td>
+								<td><em>printer is in safe mode</em></td>
+								<td>If the hardware or serial port error, then it will enter the safe mode. 
+									In safe mode, you can not control the shift axis, advance and retreat material, 
+									set the job running state, set the temperature, set the extrusion head speed, 
+									set the flow rate, set the extrusion head speed etc.</td>
+							</tr>
+							<tr>
+								<td><em>printer is not ready</em></td>
+								<td>the printer is not fully started</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>serial is disconnected</em></td>
+								<td>Serial port is not connected, the possible reason is that the serial line is not connected or other hardware error</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10002</code></td>
+								<td><em>fanspeed error value(1~350)</em></td>
+								<td>the value of fanspeed setting is error and the range of the value is (0~100)%</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Axis Shift Control</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/printer/axiscontrol/set</span>
+						<p>This API provides function of shifting the xAxis, yAxis,zAxis,eAxis.
+						There are two control modes, relative movement and absolute movement. 
+						In absolute movement mode all coordinates from now on are absolute relative to the origin of the machine.
+						In relative movement mode all coordinates from now on  are relative to the last position.</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/printer/axiscontrol/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "is_relative_pos": 0,
+  "feed": 6000,
+  "x": 300,
+  "y": 300
+}
+					</pre>
+					<pre>{
+  "is_relative_pos": 0,
+  "feed": 1200,
+  "z": 300
+}
+					</pre>
+					<pre>{
+  "is_relative_pos": 0,
+  "nozzle": 0,
+  "feed": 600,
+  "e": 10
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>is_relative_pos</code></td>
+								<td><em>int</em></td>
+								<td><p>0 - absoulte mode</p>
+									<p>1 - relative mode</p>
+								</td>
+							</tr>
+							<tr>
+								<td><code>feed</code></td>
+								<td><em>int</em></td>
+								<td>feedrate of axis shift in millimeters per minute,range is (0~8000) for xAxis, yAxis, zAxis and (0~2400) for eAxis </td>
+							</tr> 
+							<tr>
+								<td><code>x</code></td>
+								<td><em>int</em></td>
+								<td>In absoulte mode, the value is the xAxis coordinate in millimeters, if it is negative it will be set to zero. 
+									In relative mode, the value is the vector movement to xAxis in millimeters, the range of value is (-10~10). This parament is not necessary to send.</td>
+							</tr>
+							<tr>
+								<td><code>y</code></td>
+								<td><em>int</em></td>
+								<td>In absoulte mode, the value is the yAxis coordinate in millimeters, if it is negative it will be set to zero. 
+									In relative mode, the value is the vector movement to yAxis in millimeters, the range of value is (-10~10). This parament is not necessary to send.</td>
+							</tr>
+							<tr>
+								<td><code>z</code></td>
+								<td><em>int</em></td>
+								<td>In absoulte mode, the value is the zAxis coordinate in millimeters, if it is negative it will be set to zero. 
+									In relative mode, the value is the vector movement to zAxis in millimeters, the range of value is (-10~10). This parament is not necessary to send.</td>
+							</tr>
+							<tr>
+								<td><code>nozzle</code></td>
+								<td><em>int</em></td>
+								<td>Indicate feed which nozzle 
+									<p>0 - left nozzle</p>
+									<p>1 - right nozzle</p>
+								</td>
+							</tr>
+							<tr>
+								<td><code>e</code></td>
+								<td><em>int</em></td>
+								<td>the value of material feeding in millimeters,range is (-10~10) in relative mode and (-10000~10000) in aboslute mode. If the value is negative, it will exit material from printer</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of set command success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "feed_xy error value(60~6000)"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>no right nozzle</em></td>
+								<td>the printer does't have right nozzle</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="5"><code>500</code></td>
+								<td><em>printer is in safe mode</em></td>
+								<td>If the hardware or serial port error, then it will enter the safe mode. 
+									In safe mode, you can not control the shift axis, advance and retreat material, 
+									set the job running state, set the temperature, set the extrusion head speed, 
+									set the flow rate, set the extrusion head speed etc.</td>
+							</tr>
+							<tr>
+								<td><em>printer is not ready</em></td>
+								<td>the printer is not fully started</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>serial is disconnected</em></td>
+								<td>Serial port is not connected, the possible reason is that the serial line is not connected or other hardware error</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td rowspan="11"><code>10002</code></td>
+								<td><em>nozzle error value(0 or 1)</em></td>
+								<td>the value of nozzle is error, 0-left nozzle and 1-right nozzle</td>
+							</tr>
+							<tr>
+								<td><em>feed error xyz value(0~8000)</em></td>
+								<td>the value of feedrate setting for xyz axis is error and the range is (0~8000) in millimeters per minute</td>
+							</tr>
+							<tr>
+								<td><em>feed error e value(0~2400)</em></td>
+								<td>the value of feedrate setting for eAxis is error and the range is (0~2400) in millimeters per minute</td>
+							</tr>
+							<tr>
+								<td><em>x error relative model value(-10~10)</em></td>
+								<td>In relative mode, the range of vector movement to xAxis is (-10~10) in millimeters</td>
+							</tr>
+							<tr>
+								<td><em>x error aboslute model value(0~305)</em></td>
+								<td>In absolute mode, the range of xAxis coordinate is (0~305) in millimeters. The max value is different to different printer models</td>
+							</tr>
+							<tr>
+								<td><em>y error relative model value(-10~10)</em></td>
+								<td>In relative mode, the range of vector movement to yAxis is (-10~10) in millimeters</td>
+							</tr>
+							<tr>
+								<td><em>y error aboslute model value(0~305)</em></td>
+								<td>In absolute mode, the range of yAxis coordinate is (0~305) in millimeters. The max value is different to different printer models</td>
+							</tr>
+							<tr>
+								<td><em>z error relative model value(-10~10)</em></td>
+								<td>In relative mode, the range of vector movement to zAxis is (-10~10) in millimeters</td>
+							</tr>
+							<tr>
+								<td><em>z error aboslute model value(0~305)</em></td>
+								<td>In absolute mode, the range of zAxis coordinate is (0~305) in millimeters. The max value is different to different printer models</td>
+							</tr>
+							<tr>
+								<td><em>e error relative model value(-10~10)</em></td>
+								<td>In relative mode, the range of movement to eAxis is (-10~10) in millimeters</td>
+							</tr>
+							<tr>
+								<td><em>e error aboslute model value(-10000~10000)</em></td>
+								<td>In absolute mode, the range of eAxis coordinate is (-10000~10000) in millimeters.</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+			
+				<p class="title">Job</p>
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Current Job Information</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/job/currentjob</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/job/currentjob?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of current job information</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "file_name": "Local/a.gcode",
+    "print_progress": 0.<a class="sip-caller-node" href="sip:0494508035@sip4.w3tel.net?method=call">0494508035</a>4809761,
+    "printed_layer": 1,
+    "printed_time": 197,
+    "job_id": "4C530E1EB1D4_D0E782BF5B17_7e10712090a1b3600f",
+    "total_layer": 470,
+    "total_time": 11333,
+    "job_status": "running"
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 401,
+    "msg": "token error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>file_name</code></td>
+								<td><em>string</em></td>
+								<td>absolute path  of printed file including file name</td>
+							</tr>
+							<tr>
+								<td><code>print_progress</code></td>
+								<td><em>float</em></td>
+								<td>percentage of current job print progress, range(0~100)</td>
+							</tr>
+							<tr>
+								<td><code>printed_layer</code></td>
+								<td><em>int</em></td>
+								<td>the number of layers printed with current job</td>
+							</tr>
+							<tr>
+								<td><code>total_layer</code></td>
+								<td><em>int</em></td>
+								<td>the number of total layers with current job</td>
+							</tr>
+							<tr>
+								<td><code>printed_time</code></td>
+								<td><em>long</em></td>
+								<td>printed  in seconds of current job</td>
+							</tr>
+							<tr>
+								<td><code>total_time</code></td>
+								<td><em>long</em></td>
+								<td>the total print time estimated for current job in seconds</td>
+							</tr>
+							<tr>
+								<td><code>job_id</code></td>
+								<td><em>string</em></td>
+								<td>id of job which is used to distinguish between different jobs </td>
+							</tr>
+							<tr>
+								<td><code>job_status</code></td>
+								<td><em>string</em></td>
+								<td><p>The running status of current job.
+									Possible status is</p>
+									<p>paused - the printer has paused current job</p>
+									<p>running - current job is printing</p>
+									<p>completed - current job has been completed successfully</p>
+									<p>stopped - current job has been stopped</p></td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Set Current Job</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/job/currentjob/set</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/job/currentjob/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "operate": "pause"
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>operate</code></td>
+								<td><em>string</em></td>
+								<td>Operation to printer. The possible value you can set is:<br>
+								<p>pause - pause current job</p>
+								<p>resume - resume current job from paused status</p>
+								<p>stop - stop printing current job</p></td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "operate parament error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="10"><code>500</code></td>
+								<td><em>printer show completed interface</em></td>
+								<td>printer is showing completed interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show powerloss interface</em></td>
+								<td>printer is showing powerloss interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show powerdown interface</em></td>
+								<td>printer is showing powerdown interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show extrude retract interface</em></td>
+								<td>printer is showing extrude retract interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show calibrate interface</em></td>
+								<td>printer is showing calibrate interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>printer is printing</em></td>
+								<td>printer is already printing,resume operation is not supported</td>
+							</tr>
+							<tr>
+								<td><em>printer is paused</em></td>
+								<td>printer is already paused,pause operation is not supported</td>
+							</tr>
+							<tr>
+								<td><em>printer is stoped</em></td>
+								<td>printer is already stoped,no operation is supported</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10002</code></td>
+								<td><em>operate parament error</em></td>
+								<td>please check operate parament, the possible value is pause, resume and stop</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Create New Job</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/job/newjob/set</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/job/newjob/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "file_path": "Local/a.gcode"
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>filepath</code></td>
+								<td><em>string</em></td>
+								<td>path of file to be printed</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10005,
+    "msg": "root path error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="11"><code>500</code></td>
+								<td><em>printer show completed interface</em></td>
+								<td>printer is showing completed interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show powerloss interface</em></td>
+								<td>printer is showing powerloss interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show powerdown interface</em></td>
+								<td>printer is showing powerdown interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show extrude retract interface</em></td>
+								<td>printer is showing extrude retract interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show calibrate interface</em></td>
+								<td>printer is showing calibrate interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>print file is not exist</em></td>
+								<td>the file to print is not exist,please check file_path parament</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>printer is printing</em></td>
+								<td>printer is already printing,create new job is not supported</td>
+							</tr>
+							<tr>
+								<td><em>printer is paused</em></td>
+								<td>printer is already paused,create new job is not supported</td>
+							</tr>
+							<tr>
+								<td><em>printer is stoped</em></td>
+								<td>printer is already stoped,no operation is supported</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10005</code></td>
+								<td><em>root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Recover Last Job</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/job/recover/set</span>
+						<p>If the power outage or other errors cause the printer interrupted, you can use this API to recover printing</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/job/recover/set?token=7e03512ff53f81356d86af32ff58402e</em></p>
+					
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "no last job found"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="10"><code>500</code></td>
+								<td><em>printer show completed interface</em></td>
+								<td>printer is showing completed interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show powerloss interface</em></td>
+								<td>printer is showing powerloss interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show powerdown interface</em></td>
+								<td>printer is showing powerdown interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show extrude retract interface</em></td>
+								<td>printer is showing extrude retract interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer show calibrate interface</em></td>
+								<td>printer is showing calibrate interface that you can not operate printer</td>
+							</tr>
+							<tr>
+								<td><em>printer is busy</em></td>
+								<td>someone is operating the printer, or the printer is pausing, resuming, recovering or stopping</td>
+							</tr>
+							<tr>
+								<td><em>printer is printing</em></td>
+								<td>printer is already printing,recover operation is not supported</td>
+							</tr>
+							<tr>
+								<td><em>printer is paused</em></td>
+								<td>printer is already paused,recover operation is not supported</td>
+							</tr>
+							<tr>
+								<td><em>printer is stoped</em></td>
+								<td>printer is already stoped,no operation is supported</td>
+							</tr>
+							<tr>
+								<td><em>unknown error</em></td>
+								<td>an unknown error was detected</td>
+							</tr>
+							<tr>
+								<td><code>10002</code></td>
+								<td><em>no last job found</em></td>
+								<td>there is no last job to be recovered</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<p class="title api-panel-content">Dashborad</p>
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Statistics Information</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/dashboard/statistics</span>
+						<p>Get printer statistical information like toatal printed time,number of total printed files etc.</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/dashboard/statistics?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of printer statistical information</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "printed_file_num": 41,
+    "printed_total_time": 492527,
+    "printed_used_filament_0": 1473.8792724609375,
+    "printed_used_filament_1": 0.0,
+    "printed_used_filament": 1473.8792724609375
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 401,
+    "msg": "token error"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>printed_file_num</code></td>
+								<td><em>int</em></td>
+								<td>number of successfully printed files</td>
+							</tr>
+							<tr>
+								<td><code>printed_total_time</code></td>
+								<td><em>long</em></td>
+								<td>total time of successfully printed files in seconds</td>
+							</tr>
+							<tr>
+								<td><code>printed_used_filament</code></td>
+								<td><em>float</em></td>
+								<td>total fileament used by successfully printed files in gram</td>
+							</tr>
+							<tr>
+								<td><code>printed_used_filament_0</code></td>
+								<td><em>float</em></td>
+								<td>total fileament used by successfully printed files in gram from left nozzle</td>
+							</tr>
+							<tr>
+								<td><code>printed_used_filament_1</code></td>
+								<td><em>float</em></td>
+								<td>total fileament used by successfully printed files in gram from right nozzle, if the printer only have one nozzle, this parament will not be sent</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Job List</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/dashboard/joblist</span>
+						<p>Get the list of jobs displayed in the dashboard</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/dashboard/joblist?token=1a820f79c8cb9d201bc25d7754979300&amp;max_num=2&amp;start_pos=9</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>max_num</code></td>
+								<td><em>int</em></td>
+								<td>maximum number of job list that you want to get,but there may not be so many jobs in statistical job list</td>
+							</tr>
+							<tr>
+								<td><code>start_pos</code></td>
+								<td><em>int</em></td>
+								<td>index of the start job that you want to get in statistical job list</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of job list</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "job_list": [
+      {
+        "file_name": "Loacl/a.gcode",
+        "job_id": "4C530E1EB1D4_D0E782BF5B17_7e10712060a0703715",
+        "user_tag": "hello",
+        "job_index": 9
+      },
+      {
+        "file_name": "Loacl/b.gcode",
+        "job_id": "4C530E1EB1D4_D0E782BF5B17_7e10712090a1b3600f",
+        "user_tag": "world",
+        "job_index": 10
+      }
+    ]
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "max_num error value(1~12)"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>file_name</code></td>
+								<td><em>string</em></td>
+								<td>absolute path  of printed file including file name</td>
+							</tr>
+							<tr>
+								<td><code>job_id</code></td>
+								<td><em>string</em></td>
+								<td>id of job which is used to distinguish between different jobs </td>
+							</tr>
+							<tr>
+								<td><code>job_index</code></td>
+								<td><em>int</em></td>
+								<td>Index of job in job list,which is used to find the job that you can use it to get job details.</td>
+							</tr>
+							<tr>
+								<td><code>user_tag</code></td>
+								<td><em>string</em></td>
+								<td>the tag of job that added by user</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="2"><code>10002</code></td>
+								<td><em>max_num error value(1~12)</em></td>
+								<td>the value of parament max_num is out of the range (1~12)</td>
+							</tr>
+							<tr>
+								<td><em>start_pos error</em></td>
+								<td>the value of start_pos must be positive,and it also need to smaller than the number of statistical printed files in dashborad, you can get it from Get Statistics Information API.</td>
+							</tr>
+							<tr>
+								<td><code>10003</code></td>
+								<td><em>busy</em></td>
+								<td>server is busy that we can not get the response, please try it again later.</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get Job Information</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/dashboard/job</span>
+						<p>Get detail information of job printed in dashboard. Use the index of job list ,we can find the job at a faster rate</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/dashboard/job?pos=9&amp;job_id=4C530E1EB1D4_D0E782BF5B17_7e10712060a0703715&amp;token=431b11bd16500981196a1062f05585d0</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>pos</code></td>
+								<td><em>int</em></td>
+								<td>index of job in job list that you want to get, you can get it from Get job List API</td>
+							</tr>
+							<tr>
+								<td><code>job_id</code></td>
+								<td><em>string</em></td>
+								<td>id of job which is used to distinguish between different jobs, it must matches with the pos, you can check them by Get job List API</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of job information</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "file_name": "Local/a.gcode",
+    "real_print_time": 9203,
+    "estimated_time": 9200,
+    "filament_used_0": 18.8792724609375,
+    "filament_used_1": 10.8792724609375,
+    "user_tag":"hello"
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 10002,
+    "msg": "job id not match pos"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>file_name</code></td>
+								<td><em>string</em></td>
+								<td>absolute path  of printed file including file name</td>
+							</tr>
+							<tr>
+								<td><code>real_print_time</code></td>
+								<td><em>long</em></td>
+								<td>the number of printed time in seconds of this job</td>
+							</tr>
+							<tr>
+								<td><code>user_tag</code></td>
+								<td><em>string</em></td>
+								<td>the tag of job that added by user</td>
+							</tr>
+							<tr>
+								<td><code>estimated_time</code></td>
+								<td><em>long</em></td>
+								<td>the number of estimated time in seconds of this job</td>
+							</tr>
+							<tr>
+								<td><code>filament_used_0</code></td>
+								<td><em>float</em></td>
+								<td>filmament used by this job in milligram from left nozzle</td>
+							</tr>
+							<tr>
+								<td><code>filament_used_1</code></td>
+								<td><em>float</em></td>
+								<td>filmament used by this job in milligram from right nozzle, if the printer only have one nozzle, this parament will not be sent</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="2"><code>10002</code></td>
+								<td><em>job id not match pos</em></td>
+								<td>the job id do not math well with the pos, you can check them by Get job List API</td>
+							</tr>
+							<tr>
+								<td><em>pos error</em></td>
+								<td>the value of pos must be positive,and it also need to smaller than the number of statistical printed files in dashborad, you can get it from Get Statistics Information API.</td>
+							</tr>
+							<tr>
+								<td><code>10003</code></td>
+								<td><em>busy</em></td>
+								<td>server is busy that we can not get the response, please try it again later.</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Down Load Image</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/dashboard/imagedownload</span>
+						<p>DownLoad image in png from data file corresponds to the job</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/dashboard/imagedownload?job_id=4C530E1EB1D4_D0E782BF5B17_7e1070d<a class="sip-caller-node" href="sip:0804343545@sip4.w3tel.net?method=call">0804343545</a>2&amp;width=32&amp;height=32&amp;token=544b232705ec326fc0919a8ac4daf926</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>job_id</code></td>
+								<td><em>string</em></td>
+								<td>id of job which is used to distinguish between different jobs</td>
+							</tr>
+							<tr>
+								<td><code>width</code></td>
+								<td><em>int</em></td>
+								<td>width of image</td>
+							</tr>
+							<tr>
+								<td><code>height</code></td>
+								<td><em>int</em></td>
+								<td>height of image</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of image content</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "img_data": "iVBORw0KGgoAAAANSUhEUgAAABcAAAAgCAYAAAD5VeO1AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAFHElEQVRIiYWW229cVxXGf+vcxhfi2k4cGij1bRJBy6VClaiEqCoqikQfKiGohIpA4qV9qZCQ+lRE6Bt/AC/NW3loRaW2bzwhEQEStBRIA00jmvEtjpMm9szYjn3OzDl7fzzMmfHYM42XNDrSPut8+9vf+tbaA8fErxYWzu889V398+w5HZd7NOy4BP3gh9re3mZifIwr//2QL1/7eOg3t7/2iNaLgkaW8mStZgDR8dsbZBk3V5aZDEOuP/SwWs6ReUfLiz1EjLGUZSRReIhvBHDj7FnlFrDlHOvyPLO0ZAAfVKvauPRvgjjmxKkZoiSh7Qr83j5pmuJVEApaiP08Z1qirQP1gsvVqm5XKrzaytiQmItifjM3J4ApM97Mc6ZmTuOcY3d7m53mNlma4pxDwGwYYiXfK3mb3T7w6G+FY/fuXZoSl5xj2owl76lVz4ogxMj5y/p1EmA2iikA7z0mD4IV5ygE7znHuSBgs5/58yvLtuw9Drguz2t5u1fpdmA8HSdUk4RvLCwyeuYMgffYiRNEI6O8kec05VmW7yndb6kIwB2p4U/jhFsSM16cnJjgg2aDq7UafyhyHg1Dikadd53jyTDijkQFoxoYBdDug++V9pezs9qU8MD3oxgBi1HEtaLgrtQj8CdX8EQYkSG2yvXTZrTVIVmXuC7PhbU161nxK0FIxYxteTYlEuBynuOAZXkmMTwwYwHr8rQFGcKAzwYhl7xjVZ6xo1bsSrMvkQrW5ficBRgQGdyH8ewDn2fqvkmQ+P1HH3FNnhjjx5UKv2tlbEqMYqTDZLkwN6+Kgafzu+QcMxYQW4eBQY+tK8kE5TMX7NORFODC2podAgd4dW5eIwYhRoZ4zzkMGMEQIsBQ+VGBOrZkMLrgh9q/iZjGqCCcYNYCVuX7jnrv2fVyUqGOeHphQVe8Hxxcv52b16hBJtiRqCMeC0NOWsD9k5Ns7e/zbppy1R8Y+HylQiZoSNySWPaeJe8/fXCFdIr5i7Fx2u2cFvB+vc5fXUHRl/fzJGFqbp56mtK4ucGa9/yn3HgAfI9O1R3w7MgoJ06dYvX2Hd5JU86Y8dIDX+CTRoP9vI2XeD3P+VatxttFzrfDiO1hbumPFx58UC8mFcI4YnJ6mndubLCH+J/3PB4e5vNn1znHV4OQPcQdL3YQF9bWLBgG/lwcc1einhesbtV5OEkGgE9ah9fjYcRpMy57R817dhBhmTNU8x1BiAgkinabogTpj62+6ffFIOS0RIbYlGiW74aC1yXiUjPP4cG2IxEAn7EDRR3QlNjnAPhTwVuobBbDIaK+0kzYYJkq5TfZkTYYCl4IZABC6ljyXlEAqeg1W7dDhxb0hZVleywI+V6c8NTYWM8R94qfVRJ+FMfEfWtDwQFGzZBBnucDxTwa3xkfJxLEGOeCA8ihB/7XYlX/cI5qFJIJ/l7kzFjA9BC9pwzGzNhSx+NfiiImJL5euzaY/cb8gr4ZhryW58QGOXDDe0YwHg3DXt5DJcMb8qSCD+W56Tsz8okw4qIrBpm/Pr+gUYMKxv1RxCOLi+RZyubtO7SLAucdvrzSCiBH7EnsCja852N5GhIbaXpxQMyum1oInOOtq1d7QK68KAo6jsrLmZ4DLcG4dZ4A7+/uvjJQ0Lca9V8P26w/VspZbRhW5gR0mq+bfyvLLg6Av91svtIDkeePrujdPt2YC4LeWv+7n8TJIaxj/+W+Ob+g7gjoXm2OjixdzbuynF9dOYT3f6t4vBhDcXT+AAAAAElFTkSuQmCC"
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 404,
+    "msg": "data file not exist"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>img_data</code></td>
+								<td><em>string</em></td>
+								<td> data of image in base64</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>no image corresponds to the job</em></td>
+								<td>there is no data file finded by the job_id, please check the job_id</td>
+							</tr>
+							<tr>
+								<td><code>500</code></td>
+								<td><em>can not open IODevice</em></td>
+								<td>memory is not enough or other server error</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="2"><code>10002</code></td>
+								<td><em>width error, range(1~1024)</em></td>
+								<td>witdh value error, range is (1~1024)</td>
+							</tr>
+							<tr>
+								<td><em>height error, range(1~1024)</em></td>
+								<td>height value error, range is (1~1024)</td>
+							</tr>
+							<tr>
+								<td><code>10004</code></td>
+								<td><em>data file error</em></td>
+								<td>the data file corresponds to the job is corrupt and can not be parsed</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<p class="title">File</p>
+				
+				
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Create Directory</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/filepos/dir/create</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/filepos/dir/create?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "dir_path": "Local/mmmmm/nnnn"
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>dir_path</code></td>
+								<td><em>string</em></td>
+								<td>path of directory to be created</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 500,
+    "msg": "fail to create directory"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>500</code></td>
+								<td><em>fail to create directory</em></td>
+								<td>please check the dir_path or try it again later</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td><code>10005</code></td>
+								<td><em>root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Delete Directory</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/filepos/dir/delete</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/filepos/dir/delete?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "dir_path": "Local/mmmmm/nnnn"
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>dir_path</code></td>
+								<td><em>string</em></td>
+								<td>path of directory to be deleted</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 500,
+    "msg": "fail to delete directory"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>directory not exist</em></td>
+								<td>can not find the directory to be deleted</td>
+							</tr>
+							<tr>
+								<td><code>500</code></td>
+								<td><em>fail to delete directory</em></td>
+								<td>please check the dir_path or try it again later</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td><code>10005</code></td>
+								<td><em>root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+							<tr>
+								<td><code>10006</code></td>
+								<td><em>no access to delete Local directory</em></td>
+								<td>there is no access to delete the root directory "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Rename Directory</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/filepos/dir/rename</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/filepos/dir/rename?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "dir_path": "Local/mmmmm/nnnn",
+  "new_name": "aaa"
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>dir_path</code></td>
+								<td><em>string</em></td>
+								<td>path of directory to rename</td>
+							</tr>
+							<tr>
+								<td><code>new_name</code></td>
+								<td><em>string</em></td>
+								<td>new name of directory</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 500,
+    "msg": "fail to rename directory"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>directory not exist</em></td>
+								<td>can not find the directory to rename</td>
+							</tr>
+							<tr>
+								<td><code>500</code></td>
+								<td><em>fail to rename directory</em></td>
+								<td>please check the dir_path or try it again later</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td><code>10005</code></td>
+								<td><em>root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+							<tr>
+								<td><code>10006</code></td>
+								<td><em>no access to rename Local directory</em></td>
+								<td>there is no access to rename the root directory "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel_simple">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Get File List</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/fileops/list</span>
+						<p>Get the list of print files and directorys in the specified directory.</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/fileops/list?token=ede89895ce990a4700ce9fba990e8b02&amp;dir=Local/webapi_store&amp;start_pos=0&amp;max_num=10</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>dir</code></td>
+								<td><em>string</em></td>
+								<td>path of directory that you want to get, for example : logs/api</td>
+							</tr>
+							<tr>
+								<td><code>start_pos</code></td>
+								<td><em>int</em></td>
+								<td>start index of the list of print files and directorys</td>
+							</tr>
+							<tr>
+								<td><code>max_num</code></td>
+								<td><em>int</em></td>
+								<td>max number of elements in list that you want to get</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of file list</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "dir_list": [
+      "d1",
+      "d2",
+      "d3",
+      "d4"
+    ],
+    "file_list": [
+      {
+        "data_path": "",
+        "file_name": "a.gcode"
+      },
+      {
+        "data_path": "Local/webapi_store/b.data",
+        "file_name": "b.gcode"
+      },
+      {
+        "data_path": "Local/webapi_store/c.data",
+        "file_name": "c.gcode"
+      },
+      {
+        "data_path": "Local/webapi_store/d.data",
+        "file_name": "d.gcode"
+      },
+      {
+        "data_path": "Local/webapi_store/e.data",
+        "file_name": "e.gcode"
+      },
+      {
+        "data_path": "Local/webapi_store/f.data",
+        "file_name": "f.gcode"
+      }
+    ]
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 404,
+    "msg": "directory not exist"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>dir_list</code></td>
+								<td><em>array</em></td>
+								<td>name list of subdirectorys in this directory</td>
+							</tr>
+							<tr>
+								<td><code>file_list</code></td>
+								<td><em>array</em></td>
+								<td>list of print files in this directory</td>
+							</tr>
+							<tr>
+								<td><code>file_name</code></td>
+								<td><em>string</em></td>
+								<td>name of print file in this directory</td>
+							</tr>
+							<tr>
+								<td><code>data_path</code></td>
+								<td><em>string</em></td>
+								<td>path of data file corresponding to print file in this directory. if it is empty, there is no data file corresponds to this print file</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>directory not exist</em></td>
+								<td>the path of directory is error, there is no such directory</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="2"><code>10002</code></td>
+								<td><em>start_pos error, it must be non-negative</em></td>
+								<td>start_pos must be non-negative</td>
+							</tr>
+							<tr>
+								<td><em>max_num error, range(1~24)</em></td>
+								<td>the value of max_num is out of the range (1~24)</td>
+							</tr>
+							<tr>
+								<td><code>10005</code></td>
+								<td><em>root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Down Load Image</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-get">GET</span>&nbsp;&nbsp;/fileops/imagedownload</span>
+						<p>DownLoad image in png from data file</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/fileops/imagedownload?data_path=Local%2Fcat.data&amp;width=32&amp;height=32&amp;token=544b232705ec326fc0919a8ac4daf926</em></p>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>data_path</code></td>
+								<td><em>string</em></td>
+								<td>the path of data file</td>
+							</tr>
+							<tr>
+								<td><code>width</code></td>
+								<td><em>int</em></td>
+								<td>width of image</td>
+							</tr>
+							<tr>
+								<td><code>height</code></td>
+								<td><em>int</em></td>
+								<td>height of image</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of image content</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "data": {
+    "img_data": "iVBORw0KGgoAAAANSUhEUgAAABcAAAAgCAYAAAD5VeO1AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAFHElEQVRIiYWW229cVxXGf+vcxhfi2k4cGij1bRJBy6VClaiEqCoqikQfKiGohIpA4qV9qZCQ+lRE6Bt/AC/NW3loRaW2bzwhEQEStBRIA00jmvEtjpMm9szYjn3OzDl7fzzMmfHYM42XNDrSPut8+9vf+tbaA8fErxYWzu889V398+w5HZd7NOy4BP3gh9re3mZifIwr//2QL1/7eOg3t7/2iNaLgkaW8mStZgDR8dsbZBk3V5aZDEOuP/SwWs6ReUfLiz1EjLGUZSRReIhvBHDj7FnlFrDlHOvyPLO0ZAAfVKvauPRvgjjmxKkZoiSh7Qr83j5pmuJVEApaiP08Z1qirQP1gsvVqm5XKrzaytiQmItifjM3J4ApM97Mc6ZmTuOcY3d7m53mNlma4pxDwGwYYiXfK3mb3T7w6G+FY/fuXZoSl5xj2owl76lVz4ogxMj5y/p1EmA2iikA7z0mD4IV5ygE7znHuSBgs5/58yvLtuw9Drguz2t5u1fpdmA8HSdUk4RvLCwyeuYMgffYiRNEI6O8kec05VmW7yndb6kIwB2p4U/jhFsSM16cnJjgg2aDq7UafyhyHg1Dikadd53jyTDijkQFoxoYBdDug++V9pezs9qU8MD3oxgBi1HEtaLgrtQj8CdX8EQYkSG2yvXTZrTVIVmXuC7PhbU161nxK0FIxYxteTYlEuBynuOAZXkmMTwwYwHr8rQFGcKAzwYhl7xjVZ6xo1bsSrMvkQrW5ficBRgQGdyH8ewDn2fqvkmQ+P1HH3FNnhjjx5UKv2tlbEqMYqTDZLkwN6+Kgafzu+QcMxYQW4eBQY+tK8kE5TMX7NORFODC2podAgd4dW5eIwYhRoZ4zzkMGMEQIsBQ+VGBOrZkMLrgh9q/iZjGqCCcYNYCVuX7jnrv2fVyUqGOeHphQVe8Hxxcv52b16hBJtiRqCMeC0NOWsD9k5Ns7e/zbppy1R8Y+HylQiZoSNySWPaeJe8/fXCFdIr5i7Fx2u2cFvB+vc5fXUHRl/fzJGFqbp56mtK4ucGa9/yn3HgAfI9O1R3w7MgoJ06dYvX2Hd5JU86Y8dIDX+CTRoP9vI2XeD3P+VatxttFzrfDiO1hbumPFx58UC8mFcI4YnJ6mndubLCH+J/3PB4e5vNn1znHV4OQPcQdL3YQF9bWLBgG/lwcc1einhesbtV5OEkGgE9ah9fjYcRpMy57R817dhBhmTNU8x1BiAgkinabogTpj62+6ffFIOS0RIbYlGiW74aC1yXiUjPP4cG2IxEAn7EDRR3QlNjnAPhTwVuobBbDIaK+0kzYYJkq5TfZkTYYCl4IZABC6ljyXlEAqeg1W7dDhxb0hZVleywI+V6c8NTYWM8R94qfVRJ+FMfEfWtDwQFGzZBBnucDxTwa3xkfJxLEGOeCA8ihB/7XYlX/cI5qFJIJ/l7kzFjA9BC9pwzGzNhSx+NfiiImJL5euzaY/cb8gr4ZhryW58QGOXDDe0YwHg3DXt5DJcMb8qSCD+W56Tsz8okw4qIrBpm/Pr+gUYMKxv1RxCOLi+RZyubtO7SLAucdvrzSCiBH7EnsCja852N5GhIbaXpxQMyum1oInOOtq1d7QK68KAo6jsrLmZ4DLcG4dZ4A7+/uvjJQ0Lca9V8P26w/VspZbRhW5gR0mq+bfyvLLg6Av91svtIDkeePrujdPt2YC4LeWv+7n8TJIaxj/+W+Ob+g7gjoXm2OjixdzbuynF9dOYT3f6t4vBhDcXT+AAAAAElFTkSuQmCC"
+  },
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 404,
+    "msg": "data file not exist"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>img_data</code></td>
+								<td><em>string</em></td>
+								<td> data of image in base64</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>data file not exist</em></td>
+								<td>the path of data file is error, there is no such file</td>
+							</tr>
+							<tr>
+								<td><code>500</code></td>
+								<td><em>can not open IODevice</em></td>
+								<td>memory is not enough or other server error</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="2"><code>10002</code></td>
+								<td><em>width error, range(1~1024)</em></td>
+								<td>witdh value error, range is (1~1024)</td>
+							</tr>
+							<tr>
+								<td><em>height error, range(1~1024)</em></td>
+								<td>height value error, range is (1~1024)</td>
+							</tr>
+							<tr>
+								<td><code>10004</code></td>
+								<td><em>data file error</em></td>
+								<td>the data file is corrupt and can not be parsed</td>
+							</tr>
+							<tr>
+								<td><code>10005</code></td>
+								<td><em>root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Upload File</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/fileops/upload</span>
+						<p>Upload file to printer, the type of data is multipart/form-data.There is two parts, the first part is desc, the second part is file. The order of the two parts can not be reversed.
+						The content-type of desc part is apllication/json and file part is application/octet-stream.</p>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/fileops/upload?token=ede89895ce990a4700ce9fba990e8b02</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="desc"
+Content-Type:apllication/json
+{
+  "dir_path": "Local/webapi_store"
+}
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="1.txt"
+Content-Type:application/octet-stream
+*************************************
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>dir_path</code></td>
+								<td><em>string</em></td>
+								<td>path of directory that you want to upload</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+							<p><span>Returns a full JSON representation of operation success or not</span></p>
+						</div>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 404,
+    "msg": "directory not exist"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>dir_list</code></td>
+								<td><em>array</em></td>
+								<td>name list of subdirectorys in this directory</td>
+							</tr>
+							<tr>
+								<td><code>file_list</code></td>
+								<td><em>array</em></td>
+								<td>name list of files in this directory</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>directory not exist</em></td>
+								<td>the path of directory is error, there is no such directory</td>
+							</tr>
+							<tr>
+								<td rowspan="2"><code>500</code></td>
+								<td><em>IODevice can not open</em></td>
+								<td>maybe the server is busy, you can try it again later, or the printer available storage is not enough</td>
+							</tr>
+							<tr>
+								<td><em>IODevice write failed</em></td>
+								<td>maybe the server is busy, you can try it again later, or the printer available storage is not enough</td>
+							</tr>
+							<tr>
+								<td><code>10003</code></td>
+								<td><em>file too large size(0~500MB)</em></td>
+								<td>Upload file size is limited to 0 ~ 500MB</td>
+							</tr>
+							<tr>
+								<td><code>10005</code></td>
+								<td><em>root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Move File</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/filepos/moveto</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/filepos/moveto?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "file_src": "Local/mmm/nnn/a.txt",
+  "file_dst": "Loacl/mmmm/bbb/a.txt"
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>file_src</code></td>
+								<td><em>string</em></td>
+								<td>path of source file to be moved</td>
+							</tr>
+							<tr>
+								<td><code>file_dst</code></td>
+								<td><em>string</em></td>
+								<td>path of destination file</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 500,
+    "msg": "fail to move file"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>source file not exist</em></td>
+								<td>can not find the source file to be moved</td>
+							</tr>
+							<tr>
+								<td><code>500</code></td>
+								<td><em>fail to move file</em></td>
+								<td>please check the file_src and file_dst or try it again later</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="2"><code>10005</code></td>
+								<td><em>file_src root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+							<tr>
+								<td><em>file_dst root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Delete File</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/filepos/delete</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/filepos/delete?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "file_path": "Local/mmm/nnn/a.txt"
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>file_path</code></td>
+								<td><em>string</em></td>
+								<td>path of file to be deleted</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 500,
+    "msg": "fail to delete file"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>file not exist</em></td>
+								<td>can not find the file to be deleted</td>
+							</tr>
+							<tr>
+								<td><code>500</code></td>
+								<td><em>fail to delete file</em></td>
+								<td>please check the file_src and file_dst or try it again later</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td><code>10005</code></td>
+								<td><em>root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Rename File</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/filepos/rename</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/filepos/rename?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "file_path": "Local/mmmmm/a.gcode",
+  "new_name": "b.gcode"
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>dir_path</code></td>
+								<td><em>string</em></td>
+								<td>path of file to rename</td>
+							</tr>
+							<tr>
+								<td><code>new_name</code></td>
+								<td><em>string</em></td>
+								<td>new name of file</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 500,
+    "msg": "fail to rename file"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>file not exist</em></td>
+								<td>can not find the file to rename</td>
+							</tr>
+							<tr>
+								<td><code>500</code></td>
+								<td><em>fail to rename file</em></td>
+								<td>please check the file_path or try it again later</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td><code>10005</code></td>
+								<td><em>root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+				<div class="api-panel-content">
+					<div class="api-p-c-con">
+						<span class="left"><span class="img list-style"></span>&nbsp;&nbsp;Copy File</span>
+					</div>
+					<div class="api-model-body hide">
+						<span class="right"><span class="lebal-green">POST</span>&nbsp;&nbsp;/filepos/copy</span>
+						<p>Example request URI:</p>
+						<p><em>http://192.168.0.57:10800/v1/filepos/copy?token=7e03512ff53f81356d86af32ff58402e</em></p>
+						<p>Example request Body</p>
+						<em>-application/json</em>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "file_src": "Local/mmm/nnn/a.gcode",
+  "file_dst": "Loacl/mmmm/bbb/a.gcode"
+}
+					</pre>
+						<h3 class="f-b">Request</h3>
+						<h6 class="f-b">QUERY PARAMETERS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>token</code></td>
+								<td><em>string</em></td>
+								<td>user authentication</td>
+							</tr>
+							<tr>
+								<td><code>file_src</code></td>
+								<td><em>string</em></td>
+								<td>path of source file to copy</td>
+							</tr>
+							<tr>
+								<td><code>file_dst</code></td>
+								<td><em>string</em></td>
+								<td>path of destination file</td>
+							</tr>
+						</tbody></table>
+						<h3 class="f-b">Response</h3>
+						<div class="lebal-ok">
+							<span class="lebal-green">STATUS 200 OK</span>
+							<em>-application/json</em>
+						</div>
+						<p><span>Returns a full JSON representation of operation success or not</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "status": 1
+}
+					</pre>
+						<p><span>Returns an error</span></p>
+						<h6 class="f-s">EXAMPLE</h6>
+						<pre>{
+  "error": {
+    "code": 500,
+    "msg": "fail to copy file"
+  },
+  "status": 0
+}
+					</pre>
+						<h6 class="f-b">RESPONSE PARAMENTS</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">parameter</th>
+								<th class="th-type">type</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>status</code></td>
+								<td><em>int</em></td>
+								<td>1-ok 0-failed</td>
+							</tr>
+							<tr>
+								<td><code>code</code></td>
+								<td><em>int</em></td>
+								<td>error code</td>
+							</tr>
+							<tr>
+								<td><code>msg</code></td>
+								<td><em>string</em></td>
+								<td>error message</td>
+							</tr>
+						</tbody></table>
+						<h6 class="f-b">Error Code</h6>
+						<table class="aui">
+							<tbody><tr>
+								<th class="th-par">code</th>
+								<th class="th-type">msg</th>
+								<th>description</th>
+							</tr>
+							<tr>
+								<td><code>401</code></td>
+								<td><em>token error</em></td>
+								<td>token verification failed, please login first</td>
+							</tr>
+							<tr>
+								<td><code>404</code></td>
+								<td><em>source file not exist</em></td>
+								<td>can not find the source file to copy</td>
+							</tr>
+							<tr>
+								<td><code>500</code></td>
+								<td><em>fail to copy file</em></td>
+								<td>please check the file_src and file_dst or try it again later</td>
+							</tr>
+							<tr>
+								<td><code>503</code></td>
+								<td><em>no server</em></td>
+								<td>service is not started</td>
+							</tr>
+							<tr>
+								<td rowspan="2"><code>10005</code></td>
+								<td><em>file_src root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+							<tr>
+								<td><em>file_dst root path error</em></td>
+								<td>the root directory that you can access is "Local/"</td>
+							</tr>
+						</tbody></table>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="api-bottom">
+			Copyright © 2018, Raise3D Technologies Inc.
+		</div>
+	
+
+</body></html>

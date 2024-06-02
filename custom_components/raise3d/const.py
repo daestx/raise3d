@@ -47,7 +47,3 @@ SYSTEM_SENSOR_TYPES = {
     ],
 }
 
-
-
-
-
