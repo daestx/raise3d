@@ -7,9 +7,9 @@
   ],
   "config_flow": true,
   "dependencies": [],
+  "documentation": "https://github.com/daestx/raise3d",
   "integration_type": "device",
   "iot_class": "local_polling",
-  "documentation": "https://github.com/daestx/raise3d",
   "issue_tracker": "https://github.com/daestx/raise3d/issues",
   "requirements": [],
   "version": "v0.0.2"
