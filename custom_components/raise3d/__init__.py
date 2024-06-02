@@ -17,7 +17,6 @@ from .const import (
 )
 
 from .api import Raise3dClient
-from .const import DOMAIN
 from .coordinator import Raise3dDataUpdateCoordinator
 
 PLATFORMS: list[Platform] = [

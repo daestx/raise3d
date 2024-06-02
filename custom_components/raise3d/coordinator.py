@@ -34,11 +34,11 @@ class Raise3dDataUpdateCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(minutes=5),
         )
 
-    async def _async_update_data(self):
-        """Update data via library."""
-        try:
-            return await self.client.async_get_data()
-        except Raise3dClientAuthenticationError as exception:
-            raise ConfigEntryAuthFailed(exception) from exception
-        except Raise3dClientError as exception:
-            raise UpdateFailed(exception) from exception
+    # async def _async_update_data(self):
+    #     """Update data via library."""
+    #     try:
+    #         return await self.client.async_get_data()
+    #     except Raise3dClientAuthenticationError as exception:
+    #         raise ConfigEntryAuthFailed(exception) from exception
+    #     except Raise3dClientError as exception:
+    #         raise UpdateFailed(exception) from exception
