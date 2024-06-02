@@ -9,6 +9,7 @@ from typing import Optional
 import json
 import urllib
 
+import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_NAME, CONF_HOST, CONF_SCAN_INTERVAL
 from homeassistant.core import HomeAssistant
