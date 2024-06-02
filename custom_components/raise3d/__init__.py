@@ -26,11 +26,27 @@ from .const import (
     DEFAULT_PORT
 )
 
-PLATFORMS: list[Platform] = [
-    Platform.SENSOR,
-    Platform.BINARY_SENSOR,
-    Platform.SWITCH,
-]
+_LOGGER = logging.getLogger(__name__)
+
+RAISE3D_SCHEMA = vol.Schema(
+    {
+        vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
+        vol.Optional(CONF_HOST, default=DEFAULT_IP): cv.string,
+        vol.Optional(CONF_HOST, default=DEFAULT_PORT): cv.positive_int,
+        vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): cv.positive_int,
+    }
+)
+
+CONFIG_SCHEMA = vol.Schema(
+    {DOMAIN: vol.Schema({cv.slug: RAISE3D_SCHEMA})}, extra=vol.ALLOW_EXTRA
+)
+
+PLATFORMS = ["sensor"]
+
+async def async_setup(hass: HomeAssistant, config):
+    """Set up the Rgaise3D component."""
+    hass.data[DOMAIN] = {}
+    return True
 
 
 # https://developers.home-assistant.io/docs/config_entries_index/#setting-up-an-entry
@@ -40,9 +56,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     name = entry.data[CONF_NAME]
     scan_interval = entry.data[CONF_SCAN_INTERVAL]
 
-    _LOGGER.debug("Setup Pellematic Hub %s, %s", DOMAIN, name)
+    _LOGGER.debug("Setup Raise3d Hub %s, %s", DOMAIN, name)
 
-    hub = PellematicHub(hass, name, host, scan_interval)
+    hub = Raise3dHub(hass, name, host, scan_interval)
 
     # Register the hub.
     hass.data[DOMAIN][name] = {"hub": hub}
@@ -51,20 +67,24 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.async_create_task(
             hass.config_entries.async_forward_entry_setup(entry, component)
         )
-    return Tru
+    return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Handle removal of an entry."""
-    if unloaded := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
-        hass.data[DOMAIN].pop(entry.entry_id)
-    return unloaded
+async def async_unload_entry(hass: HomeAssistant, entry):
+    """Unload Raise3D entry."""
+    unload_ok = all(
+        await asyncio.gather(
+            *[
+                hass.config_entries.async_forward_entry_unload(entry, component)
+                for component in PLATFORMS
+            ]
+        )
+    )
+    if not unload_ok:
+        return False
 
-
-async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
-    """Reload config entry."""
-    await async_unload_entry(hass, entry)
-    await async_setup_entry(hass, entry)
+    hass.data[DOMAIN].pop(entry.data["name"])
+    return True
 
 
 class Raise3dHub:
