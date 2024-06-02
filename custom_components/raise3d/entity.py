@@ -9,7 +9,7 @@ from .coordinator import BlueprintDataUpdateCoordinator
 
 
 class Raise3dEntity(CoordinatorEntity):
-    """BlueprintEntity class."""
+    """Raise3dEntity class."""
 
     _attr_attribution = ATTRIBUTION
 
