@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import voluptuous as vol
+# https://developers.home-assistant.io/docs/development_validation/
+import homeassistant.helpers.config_validation as cv
 from homeassistant.core import HomeAssistant, callback
 from homeassistant import config_entries
 from homeassistant.const import (
@@ -17,15 +19,17 @@ from .const import (
     DEFAULT_PORT,
     DEFAULT_IP,
     CONF_PORT,
-    CONF_IP
+    CONF_IP,
+    CONF_PASSWORD
 )
 
 DATA_SCHEMA = vol.Schema(
     {
-        vol.Optional(CONF_NAME, default=DEFAULT_NAME): str,
-        vol.Optional(CONF_IP, default=DEFAULT_IP): str,
-        vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): int,
-        vol.Optional(CONF_PORT, default=DEFAULT_PORT): int
+        vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
+        vol.Optional("default IP", default=DEFAULT_IP): cv.string,
+        vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): cv.positive_int,
+        vol.Optional("Port", default=DEFAULT_PORT): cv.port,
+        vol.Optional("Password", default=""): cv.string
     }
 )
 
