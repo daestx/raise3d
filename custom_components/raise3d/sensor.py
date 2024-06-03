@@ -38,7 +38,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Setup entry""" 
+    """Setup entry.""" 
     hub_name = entry.data[CONF_NAME]
     hub = hass.data[DOMAIN][hub_name]["hub"]
 
@@ -65,7 +65,7 @@ async def async_setup_entry(
 
 
 class Raise3dSensor(SensorEntity):
-    """Raise3D Sensor class"""
+    """Raise3D Sensor class."""
 
     def __init__(
         self,
@@ -143,6 +143,7 @@ class Raise3dSensor(SensorEntity):
         self._hub.async_add_raise3d_sensor(self._api_data_updated)
 
     async def async_will_remove_from_hass(self) -> None:
+        """Register callbacks."""
         self._hub.async_remove_raise3d_sensor(self._api_data_updated)
 
     @callback
@@ -180,13 +181,15 @@ class Raise3dSensor(SensorEntity):
 
     @property
     def extra_state_attributes(self):
+        """extra attribute."""
         return None
 
     @property
     def should_poll(self) -> bool:
-        """Data is delivered by the hub"""
+        """Data is delivered by the hub."""
         return False
 
     @property
     def device_info(self) -> Optional[dict[str, Any]]:
+        """Device info."""
         return self._device_info
