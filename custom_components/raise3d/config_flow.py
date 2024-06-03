@@ -35,7 +35,7 @@ DATA_SCHEMA = vol.Schema(
 
 """Validators and callbacks"""
 
-def ip_valid(ip):
+def host_valid(ip):
     """Return True if hostname or IP address is valid."""
     return True
 
@@ -54,8 +54,9 @@ class Raise3dFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for Raise3D"""
 
     VERSION = 1
+    CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_POLL
 
-    def _ip_in_configuration_exists(self, ip) -> bool:
+    def _host_in_configuration_exists(self, ip) -> bool:
         """Return True if ip exists in configuration."""
         if ip in Raise3d_entries(self.hass):
             return True
@@ -68,14 +69,14 @@ class Raise3dFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
         
         if user_input is not None:
-            host = user_input[CONF_IP_ADDRESS]
+            host = user_input[CONF_HOST]
 
             if self._host_in_configuration_exists(host):
-                errors[CONF_IP_ADDRESS] = "already_configured"
-            elif not ip_valid(user_input[CONF_IP_ADDRESS]):
-                errors[CONF_IP_ADDRESS] = "invalid ip address"
+                errors[CONF_HOST] = "already_configured"
+            elif not host_valid(user_input[CONF_HOST]):
+                errors[CONF_HOST] = "invalid host address"
             else:
-                await self.async_set_unique_id(user_input[CONF_IP_ADDRESS])
+                await self.async_set_unique_id(user_input[CONF_HOST])
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(
                     title=user_input[CONF_NAME], data=user_input
