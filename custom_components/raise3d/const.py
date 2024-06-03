@@ -19,12 +19,11 @@ VERSION = "0.0.0"
 ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
 
 DEFAULT_NAME = "Raise3D"
-DEFAULT_SCAN_INTERVAL = 10
+DEFAULT_SCAN_INTERVAL = 30
 DEFAULT_PORT = 10800
-DEFAULT_IP = "aaa.bbb.ccc.ddd"
+DEFAULT_IP = "192.168.110.35"
+DEFAULT_PASSWORD = "password"
 
-CONF_NAME = "conf_name"
-CONF_SCAN_INTERVAL = "conf_scan_interval"
 CONF_PORT = "conf_port"
 CONF_IP = "conf_ip"
 CONF_PASSWORD = "conf_password"

@@ -6,10 +6,8 @@
         "title": "Define your Raise3D printer connection",
         "data": {
           "conf_ip": "The ip address of the printer",
-          "conf_name": "The name of the device",
           "conf_port": "Port configuration",
-          "conf_password": "Printer password",
-          "conf_scan_interval": "The polling frequency of the API in seconds"
+          "conf_password": "Printer password"
         }
       }
     },
