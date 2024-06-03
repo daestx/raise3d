@@ -126,7 +126,7 @@ class Raise3dSensor(SensorEntity):
             self._attr_state_class = SensorStateClass.MEASUREMENT
 
         _LOGGER.debug(
-            "Adding a PellematicSensor : %s, %s, %s, %s, %s, %s, %s, %s, %s",
+            "Adding a Raise3D Sensor : %s, %s, %s, %s, %s, %s, %s, %s, %s",
             str(self._platform_name),
             str(self._hub),
             str(self._prefix),
@@ -140,11 +140,15 @@ class Raise3dSensor(SensorEntity):
 
     async def async_added_to_hass(self):
         """Register callbacks."""
+        _LOGGER.debug("add to hass_pre")
         self._hub.async_add_raise3d_sensor(self._api_data_updated)
+        _LOGGER.debug("add to hass_post")
 
     async def async_will_remove_from_hass(self) -> None:
         """Register callbacks."""
+        _LOGGER.debug("remove from hass_pre")
         self._hub.async_remove_raise3d_sensor(self._api_data_updated)
+        _LOGGER.debug("remove from hass_pre")
 
     @callback
     def _api_data_updated(self):
