@@ -24,7 +24,10 @@ from .const import (
     DEFAULT_IP,
     DEFAULT_NAME,
     DEFAULT_SCAN_INTERVAL,
-    DEFAULT_PORT
+    DEFAULT_PORT,
+    CONF_PORT,
+    CONF_PASSWORD
+
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -32,8 +35,7 @@ _LOGGER = logging.getLogger(__name__)
 RAISE3D_SCHEMA = vol.Schema(
     {
         vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
-        vol.Optional("Ip Address", default=DEFAULT_IP): cv.string,
-        vol.Optional("Port", default=DEFAULT_PORT): cv.positive_int,
+        vol.Optional(CONF_HOST, default=DEFAULT_IP): cv.string,
         vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): cv.positive_int,
     }
 )
@@ -56,8 +58,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     host = entry.data[CONF_HOST]
     name = entry.data[CONF_NAME]
     scan_interval = entry.data[CONF_SCAN_INTERVAL]
+    port = entry.data[CONF_PORT]
+    password = entry.data[CONF_PASSWORD]
 
-    _LOGGER.debug("Setup Raise3d Hub %s, %s", DOMAIN, name)
+
+    _LOGGER.debug("Setup Raise3d Hub: domain:%s, name:%s", DOMAIN, name)
+    _LOGGER.debug("Setup Raise3d Hub: password:%s, port:%s, scan_interval:%s", password, port, scan_interval)
 
     hub = Raise3dHub(hass, name, host, scan_interval)
 
@@ -158,7 +164,7 @@ class Raise3dHub:
 
 def fetch_data(url: str):
     """Get data"""
-    # _LOGGER.debug("Fetching raise3d datas with REST API")
+    _LOGGER.debug("Fetching raise3d datas with REST API")
 
     req = urllib.request.Request(url)
     response = None
@@ -166,7 +172,7 @@ def fetch_data(url: str):
     try:
         response = urllib.request.urlopen(
             req, timeout=3
-        )  # okofen api recommanded timeout is 2,5s
+        ) 
         str_response = response.read().decode("iso-8859-1", "ignore")
     finally:
         if response is not None:

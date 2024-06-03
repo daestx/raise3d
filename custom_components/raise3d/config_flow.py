@@ -1,4 +1,4 @@
-"""Adds config flow for Raise3dEntity."""
+"""Adds config flow for Raise3d Integration."""
 from __future__ import annotations
 
 import voluptuous as vol

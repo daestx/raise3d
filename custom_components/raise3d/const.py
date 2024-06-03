@@ -28,22 +28,23 @@ DEFAULT_PASSWORD = "password"
 CONF_PORT = "conf_port"
 CONF_PASSWORD = "conf_password"
 
-ATTR_STATUS_DESCRIPTION = "status_description"
 ATTR_MANUFACTURER = "Raise 3D"
 ATTR_MODEL = "Pro2"
 
-SYSTEM_SENSOR_TYPES = {
-    "L_status": [
-        "Outside Temperature",
-        "L_status",
-        UnitOfTemperature.CELSIUS,
+
+#Printer System Information
+PRINTER_SYSTEM_INFORMATION = {
+    "L_serial_number": [
+        "Serial number",
+        "L_serial_number",
+        None,
         None,
     ],
-    "L_errors": [
-        "System Errors",
-        "L_errors",
+    "L_api_version": [
+        "API version",
+        "L_api_version",
         None,
         "mdi:alert-circle",
-    ],
+    ]
 }
 
