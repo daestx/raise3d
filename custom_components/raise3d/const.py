@@ -23,11 +23,11 @@ DEFAULT_SCAN_INTERVAL = 10
 DEFAULT_PORT = 10800
 DEFAULT_IP = "aaa.bbb.ccc.ddd"
 
-CONF_NAME = "Raise3D"
-CONF_SCAN_INTERVAL = 10
-CONF_PORT = 10800
-CONF_IP = "IP"
-CONF_PASSWORD = ""
+CONF_NAME = "conf_name"
+CONF_SCAN_INTERVAL = "conf_scan_interval"
+CONF_PORT = "conf_port"
+CONF_IP = "conf_ip"
+CONF_PASSWORD = "conf_password"
 
 ATTR_STATUS_DESCRIPTION = "status_description"
 ATTR_MANUFACTURER = "Raise 3D"

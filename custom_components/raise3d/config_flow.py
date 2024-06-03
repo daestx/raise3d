@@ -26,10 +26,10 @@ from .const import (
 DATA_SCHEMA = vol.Schema(
     {
         vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
-        vol.Optional("default IP", default=DEFAULT_IP): cv.string,
-        vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): cv.positive_int,
-        vol.Optional("Port", default=DEFAULT_PORT): cv.port,
-        vol.Optional("Password", default=""): cv.string
+        vol.Optional(CONF_IP, default=DEFAULT_IP): cv.string,
+        vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
+        vol.Optional(CONF_PASSWORD, default=""): cv.string,
+        vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): cv.positive_int
     }
 )
 

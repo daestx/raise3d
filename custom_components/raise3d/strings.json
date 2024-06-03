@@ -1,23 +1,23 @@
 {
-    "config": {
-      "title": "Raise3D printer configuration",
-      "step": {
-        "user": {
-          "title": "Define your Raise3D printerconnection",
-          "data": {
-            "ip": "The ip address of the printer",
-            "name": "The name of the device",
-            "port": "Port configuration",
-            "password": "Printer password",
-            "scan_interval": "The polling frequency of the API in seconds"
-          }
+  "config": {
+    "title": "Raise3D printer configuration",
+    "step": {
+      "user": {
+        "title": "Define your Raise3D printer connection",
+        "data": {
+          "conf_ip": "The ip address of the printer",
+          "conf_name": "The name of the device",
+          "conf_port": "Port configuration",
+          "conf_password": "Printer password",
+          "conf_scan_interval": "The polling frequency of the API in seconds"
         }
-      },
-      "error": {
-        "already_configured": "Device is already configured"
-      },
-      "abort": {
-        "already_configured": "Device is already configured"
       }
+    },
+    "error": {
+      "already_configured": "Device is already configured"
+    },
+    "abort": {
+      "already_configured": "Device is already configured"
     }
   }
+}
