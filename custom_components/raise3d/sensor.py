@@ -1,4 +1,4 @@
-"""Sensor platform for Raise3D."""
+"""Add Sensor platform for Raise3D."""
 import logging
 from typing import Optional, Any
 
