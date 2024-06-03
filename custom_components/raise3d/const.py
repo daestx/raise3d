@@ -24,8 +24,8 @@ DEFAULT_PORT = 10800
 DEFAULT_IP = "192.168.110.35"
 DEFAULT_PASSWORD = "password"
 
+# titles in configuration flows are define in strings and translation json files
 CONF_PORT = "conf_port"
-CONF_IP = "conf_ip"
 CONF_PASSWORD = "conf_password"
 
 ATTR_STATUS_DESCRIPTION = "status_description"

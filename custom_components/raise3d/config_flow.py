@@ -8,7 +8,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant import config_entries
 from homeassistant.const import (
     CONF_NAME,
-    CONF_IP_ADDRESS,
+    CONF_HOST,
     CONF_SCAN_INTERVAL,
 )
 
@@ -20,14 +20,13 @@ from .const import (
     DEFAULT_IP,
     DEFAULT_PASSWORD,
     CONF_PORT,
-    CONF_IP,
     CONF_PASSWORD
 )
 
 DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_NAME, default=DEFAULT_NAME): cv.string,
-        vol.Required(CONF_IP, default=DEFAULT_IP): cv.string,
+        vol.Required(CONF_HOST, default=DEFAULT_IP): cv.string,
         vol.Required(CONF_PORT, default=DEFAULT_PORT): cv.port,
         vol.Required(CONF_PASSWORD, default=DEFAULT_PASSWORD): cv.string,
         vol.Optional(CONF_SCAN_INTERVAL, default=DEFAULT_SCAN_INTERVAL): cv.positive_int

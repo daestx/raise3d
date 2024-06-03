@@ -5,7 +5,9 @@
       "user": {
         "title": "Define your Raise3D printer connection",
         "data": {
-          "conf_ip": "The ip address of the printer",
+          "host": "The url or ip address of the printer",
+          "name": "The name of the device",
+          "scan_interval": "The polling frequency of the API in seconds",
           "conf_port": "Port configuration",
           "conf_password": "Printer password"
         }
