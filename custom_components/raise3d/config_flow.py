@@ -43,7 +43,7 @@ def host_valid(ip):
 def Raise3d_entries(hass: HomeAssistant):
     """Return the hosts already configured."""
     return set(
-        entry.data[CONF_IP_ADDRESS] for entry in hass.config_entries.async_entries(DOMAIN)
+        entry.data[CONF_HOST] for entry in hass.config_entries.async_entries(DOMAIN)
     )
 
 """ https://developers.home-assistant.io/docs/config_entries_config_flow_handler/

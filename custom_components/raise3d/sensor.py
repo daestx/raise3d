@@ -33,17 +33,6 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 _LOGGER = logging.getLogger(__name__)
 
 
-
-
-ENTITY_DESCRIPTIONS = (
-    SensorEntityDescription(
-        key="raise3d",
-        name="Raise3D Sensor",
-        icon="mdi:format-quote-close",
-    ),
-)
-
-
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: ConfigEntry,
