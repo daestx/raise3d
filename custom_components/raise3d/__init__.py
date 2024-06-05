@@ -31,8 +31,6 @@ import voluptuous as vol
 import custom_components.raise3d.raise_api as r3d
 
 
-
-
 _LOGGER = logging.getLogger(__name__)
 
 RAISE3D_SCHEMA = vol.Schema(
@@ -182,33 +180,20 @@ def fetch_data(url: str, port: int, password: str):
     _LOGGER.debug("Fetching raise3d datas with REST API")
     _LOGGER.debug("Parameter: %s, %s, %s", url, port, password)
 
-    p1 = r3d.raise3d()
+    printer = r3d.raise3d()
 
     # get new token
-    if fetch_data.token == 0:
-        rc = p1.getLogin(url, str(port), password)
+    rc = printer.getLogin(url, str(port), password)
+    if rc is None:
+        _LOGGER.debug("Return value: is none")
+        return
 
-        if rc is None:
-            _LOGGER.debug("Return value: is none")
-            return
+    fetch_data.token = rc
+    _LOGGER.debug("Return value: %s", rc)
 
-        fetch_data.token = rc
-        _LOGGER.debug("Return value ??? %s")
+    # get printer status
+    rc = printer.getInfo(url, str(port), fetch_data.token)
+    if rc is None:
+        fetch_data.token = 0
 
-
-    """     req = urllib.request.Request(url)
-    response = None
-    str_response = None
-    try:
-        response = urllib.request.urlopen(
-            req, timeout=3
-        )
-        str_response = response.read().decode("iso-8859-1", "ignore")
-    finally:
-        if response is not None:
-            response.close()
-
-    # Hotfix for raise3d update 4.02 (invalid json)
-    str_response = str_response.replace("L_statetext:", 'L_statetext":')
-    result = json.loads(str_response, strict=False) """
-    return "L_api_version:3.2.1"
+    return rc

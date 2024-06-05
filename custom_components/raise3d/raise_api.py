@@ -8,6 +8,7 @@ import logging
 
 _LOGGER = logging.getLogger(__name__)
 
+
 def test():
     _LOGGER.debug("sha1:%s", test)
 
@@ -21,7 +22,7 @@ class raise3d:
             values = json.loads(data)
             return values
         except:
-            return {'status':0}
+            return {'status': 0}
 
     def calc_hash(self, plain):
         hash = hashlib.sha1(plain.encode('utf-8')).hexdigest()
@@ -36,12 +37,12 @@ class raise3d:
 
     def getLogin(self, url, port, password):
         time = self.getTime()
-        plain = "password=" + password +"&timestamp=" + time
+        plain = "password=" + password + "&timestamp=" + time
         _LOGGER.debug("plain:%s", plain)
         hash = self.calc_hash(plain)
 
-        #generate url string with URL parameter for hash value and timestamp according API doc
-        _url =  url + ":" + port + "/v1/login?sign=" + hash + "&timestamp=" + time
+        # generate url string with URL parameter for hash value and timestamp according API doc
+        _url = url + ":" + port + "/v1/login?sign=" + hash + "&timestamp=" + time
         _LOGGER.debug("URL:%s", _url)
         json = self.requestHttp(_url)
         _LOGGER.debug("Json:%s", json)
@@ -56,21 +57,39 @@ class raise3d:
 
     def getInfo(self, url, port, token):
 
-        _url =  url + ":" + port + "/v1/printer/system?token=" + token
+        _url = url + ":" + port + "/v1/printer/system?token=" + token
         _LOGGER.debug("URL:%s", _url)
         json = self.requestHttp(_url)
         _LOGGER.debug("Json:%s", json)
+
+        if json["status"] == 1:
+            return json
+
+        # in case of error or timeout
+        return None
 
     def getPrinterStatus(self, url, port, token):
 
-        _url =  url + ":" + port + "/v1/printer/runningstatus?token=" + token
+        _url = url + ":" + port + "/v1/printer/runningstatus?token=" + token
         _LOGGER.debug("URL:%s", _url)
         json = self.requestHttp(_url)
         _LOGGER.debug("Json:%s", json)
+
+        if json["status"] == 1:
+            return json
+
+        # in case of error or timeout
+        return None
 
     def getCurrentJob(self,  url, port, token):
 
-        _url =  ip + ":" + port + "/v1/job/currentjob?token=" + token
+        _url = ip + ":" + port + "/v1/job/currentjob?token=" + token
         _LOGGER.debug("URL:%s", _url)
         json = self.requestHttp(_url)
         _LOGGER.debug("Json:%s", json)
+
+        if json["status"] == 1:
+            return json
+
+        # in case of error or timeout
+        return None
