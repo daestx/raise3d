@@ -28,9 +28,9 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.event import async_track_time_interval
 
 import voluptuous as vol
-from .raise3d import raise3d
+import custom_components.raise3d.raise_api as r3d
 
-token = 0
+
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -175,13 +175,28 @@ class Raise3dHub:
 
 def fetch_data(url: str, port: int, password: str):
     """Get data"""
+    # instantiate static variable for token
+    if not hasattr(fetch_data, "token"):
+        fetch_data.token = 0
+
     _LOGGER.debug("Fetching raise3d datas with REST API")
     _LOGGER.debug("Parameter: %s, %s, %s", url, port, password)
 
-    rc = raise3d.getLogin(str(url), str(port), str(password))
-    _LOGGER.debug("Parameter: %s", rc)
+    p1 = r3d.raise3d()
 
-    req = urllib.request.Request(url)
+    # get new token
+    if fetch_data.token == 0:
+        rc = p1.getLogin(url, str(port), password)
+
+        if rc is None:
+            _LOGGER.debug("Return value: is none")
+            return
+
+        fetch_data.token = rc
+        _LOGGER.debug("Return value ??? %s")
+
+
+    """     req = urllib.request.Request(url)
     response = None
     str_response = None
     try:
@@ -195,5 +210,5 @@ def fetch_data(url: str, port: int, password: str):
 
     # Hotfix for raise3d update 4.02 (invalid json)
     str_response = str_response.replace("L_statetext:", 'L_statetext":')
-    result = json.loads(str_response, strict=False)
-    return result
+    result = json.loads(str_response, strict=False) """
+    return "L_api_version:3.2.1"
