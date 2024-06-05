@@ -21,7 +21,7 @@ ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
 DEFAULT_NAME = "Raise3D"
 DEFAULT_SCAN_INTERVAL = 30
 DEFAULT_PORT = 10800
-DEFAULT_IP = "192.168.110.35"
+DEFAULT_IP = "192.168.110.25"
 DEFAULT_PASSWORD = "password"
 
 # titles in configuration flows are define in strings and translation json files

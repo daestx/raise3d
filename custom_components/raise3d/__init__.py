@@ -1,6 +1,16 @@
 """Custom integration for Raise3D printers with Home Assistant."""
 
 from __future__ import annotations
+from .const import (
+    DOMAIN,
+    DEFAULT_IP,
+    DEFAULT_NAME,
+    DEFAULT_SCAN_INTERVAL,
+    DEFAULT_PORT,
+    CONF_PORT,
+    CONF_PASSWORD
+
+)
 import asyncio
 import logging
 import threading
@@ -18,17 +28,10 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.event import async_track_time_interval
 
 import voluptuous as vol
+from .raise3d import raise3d
 
-from .const import (
-    DOMAIN,
-    DEFAULT_IP,
-    DEFAULT_NAME,
-    DEFAULT_SCAN_INTERVAL,
-    DEFAULT_PORT,
-    CONF_PORT,
-    CONF_PASSWORD
+token = 0
 
-)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -46,6 +49,7 @@ CONFIG_SCHEMA = vol.Schema(
 
 PLATFORMS = ["sensor"]
 
+
 async def async_setup(hass: HomeAssistant, config):
     """Set up the Rgaise3D component."""
     hass.data[DOMAIN] = {}
@@ -61,11 +65,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     port = entry.data[CONF_PORT]
     password = entry.data[CONF_PASSWORD]
 
-
     _LOGGER.debug("Setup Raise3d Hub: domain:%s, name:%s", DOMAIN, name)
-    _LOGGER.debug("Setup Raise3d Hub: password:%s, port:%s, scan_interval:%s", password, port, scan_interval)
+    _LOGGER.debug("Setup Raise3d Hub: password:%s, port:%s, scan_interval:%s",
+                  password, port, scan_interval)
 
-    hub = Raise3dHub(hass, name, host, scan_interval)
+    hub = Raise3dHub(hass, name, host, scan_interval, port, password)
 
     # Register the hub.
     hass.data[DOMAIN][name] = {"hub": hub}
@@ -82,7 +86,8 @@ async def async_unload_entry(hass: HomeAssistant, entry):
     unload_ok = all(
         await asyncio.gather(
             *[
-                hass.config_entries.async_forward_entry_unload(entry, component)
+                hass.config_entries.async_forward_entry_unload(
+                    entry, component)
                 for component in PLATFORMS
             ]
         )
@@ -103,6 +108,8 @@ class Raise3dHub:
         name,
         host,
         scan_interval,
+        port,
+        password
     ) -> None:
         """Initialize the hub."""
         self._hass = hass
@@ -110,6 +117,10 @@ class Raise3dHub:
         self._lock = threading.Lock()
         self._name = name
         self._scan_interval = timedelta(seconds=scan_interval)
+        self._port = port
+        self._password = password
+        self.token = None
+
         self._unsub_interval_method = None
         self._sensors = []
         self.data = {}
@@ -157,14 +168,18 @@ class Raise3dHub:
 
     async def fetch_raise3d_data(self):
         """Get data from api"""
-        result = await self._hass.async_add_executor_job(fetch_data, self._host)
+        result = await self._hass.async_add_executor_job(fetch_data, self._host, self._port, self._password)
         self.data = result
         return True
 
 
-def fetch_data(url: str):
+def fetch_data(url: str, port: int, password: str):
     """Get data"""
     _LOGGER.debug("Fetching raise3d datas with REST API")
+    _LOGGER.debug("Parameter: %s, %s, %s", url, port, password)
+
+    rc = raise3d.getLogin(str(url), str(port), str(password))
+    _LOGGER.debug("Parameter: %s", rc)
 
     req = urllib.request.Request(url)
     response = None
@@ -172,7 +187,7 @@ def fetch_data(url: str):
     try:
         response = urllib.request.urlopen(
             req, timeout=3
-        ) 
+        )
         str_response = response.read().decode("iso-8859-1", "ignore")
     finally:
         if response is not None:
@@ -182,7 +197,3 @@ def fetch_data(url: str):
     str_response = str_response.replace("L_statetext:", 'L_statetext":')
     result = json.loads(str_response, strict=False)
     return result
-
-
-
-

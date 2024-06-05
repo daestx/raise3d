@@ -58,6 +58,12 @@ async def async_setup_entry(
             hub_name, hub, device_info, "system", name, key, unit, icon
         )
         entities.append(sensor)
+    
+    _LOGGER.debug("Entities added : %i", len(entities))
+
+    async_add_entities(entities)
+
+    return True
 
 
 
