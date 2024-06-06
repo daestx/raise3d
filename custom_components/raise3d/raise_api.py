@@ -9,11 +9,8 @@ import logging
 _LOGGER = logging.getLogger(__name__)
 
 
-def test():
-    _LOGGER.debug("sha1:%s", test)
-
-
 class raise3d:
+    """class for API functions."""
     def requestHttp(self, url):
         http = urllib3.PoolManager()
         try:
@@ -25,6 +22,7 @@ class raise3d:
             return {'status': 0}
 
     def calc_hash(self, plain):
+        """hsh value generation."""
         hash = hashlib.sha1(plain.encode('utf-8')).hexdigest()
         _LOGGER.debug("sha1:%s", hash)
         hash = hashlib.md5(hash.encode('utf-8')).hexdigest()
@@ -32,10 +30,12 @@ class raise3d:
         return hash
 
     def getTime(self):
+        """return ms epoch timestamp."""
         millis_since_epoch = time.time_ns() // 1000000
         return str(millis_since_epoch)
 
     def getLogin(self, url, port, password):
+        """receive API token from printer."""
         time = self.getTime()
         plain = "password=" + password + "&timestamp=" + time
         _LOGGER.debug("plain:%s", plain)
@@ -56,7 +56,8 @@ class raise3d:
         return None
 
     def getInfo(self, url, port, token):
-
+        """ Get printer system information, like language, brightness. """
+        """receive API token from printer."""
         _url = url + ":" + port + "/v1/printer/system?token=" + token
         _LOGGER.debug("URL:%s", _url)
         json = self.requestHttp(_url)
@@ -69,7 +70,7 @@ class raise3d:
         return None
 
     def getPrinterStatus(self, url, port, token):
-
+        """ Get printer running status. """
         _url = url + ":" + port + "/v1/printer/runningstatus?token=" + token
         _LOGGER.debug("URL:%s", _url)
         json = self.requestHttp(_url)
@@ -82,7 +83,7 @@ class raise3d:
         return None
 
     def getCurrentJob(self,  url, port, token):
-
+        """ Get current job information. """
         _url = ip + ":" + port + "/v1/job/currentjob?token=" + token
         _LOGGER.debug("URL:%s", _url)
         json = self.requestHttp(_url)

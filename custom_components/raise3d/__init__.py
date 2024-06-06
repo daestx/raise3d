@@ -6,25 +6,21 @@ from .const import (
     DEFAULT_IP,
     DEFAULT_NAME,
     DEFAULT_SCAN_INTERVAL,
-    DEFAULT_PORT,
     CONF_PORT,
     CONF_PASSWORD
-
 )
 import asyncio
 import logging
 import threading
 from datetime import timedelta
 from typing import Optional
-import json
-import urllib
 
 import homeassistant.helpers.config_validation as cv
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_NAME, CONF_HOST, CONF_SCAN_INTERVAL
 from homeassistant.core import HomeAssistant
 from homeassistant.core import callback
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
+# from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.event import async_track_time_interval
 
 import voluptuous as vol
