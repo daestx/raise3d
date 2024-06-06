@@ -11,14 +11,17 @@ _LOGGER = logging.getLogger(__name__)
 
 class raise3d:
     """Class for API functions."""
+
     def requestHttp(self, url):
+        """Receive data by accessing the printer URL."""
         http = urllib3.PoolManager()
         try:
             response = http.request('GET', url)
             data = response.data
             values = json.loads(data)
             return values
-        except:
+        except Exception as e:
+            _LOGGER.debug("Exception: %s, args: %s", e.message, e.args)
             return {'status': 0}
 
     def calc_hash(self, plain):
@@ -83,7 +86,7 @@ class raise3d:
 
     def getCurrentJob(self,  url, port, token):
         """Get current job information."""
-        _url = ip + ":" + port + "/v1/job/currentjob?token=" + token
+        _url = url + ":" + port + "/v1/job/currentjob?token=" + token
         _LOGGER.debug("URL:%s", _url)
         json = self.requestHttp(_url)
         _LOGGER.debug("Json:%s", json)
