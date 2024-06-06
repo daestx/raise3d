@@ -148,7 +148,7 @@ class Raise3dHub:
         try:
             update_result = await self.fetch_raise3d_data()
         except Exception as e:
-            _LOGGER.exception("Error reading raise3d data")
+            _LOGGER.exception("Error reading raise3d data: %s", e)
             update_result = False
 
         if update_result:
@@ -161,14 +161,14 @@ class Raise3dHub:
         return self._name
 
     async def fetch_raise3d_data(self):
-        """Get data from api"""
+        """Get data from api."""
         result = await self._hass.async_add_executor_job(fetch_data, self._host, self._port, self._password)
         self.data = result
         return True
 
 
 def fetch_data(url: str, port: int, password: str):
-    """Get data"""
+    """Get data."""
     # instantiate static variable for token
     if not hasattr(fetch_data, "token"):
         fetch_data.token = 0
