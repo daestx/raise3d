@@ -1,4 +1,4 @@
-"""Add Sensor platform for Raise3D."""
+"""Setup Sensor platform for Raise3D."""
 import logging
 from typing import Optional, Any
 
@@ -58,16 +58,12 @@ async def async_setup_entry(
             hub_name, hub, device_info, "system", name, key, unit, icon
         )
         entities.append(sensor)
-    
+
     _LOGGER.debug("Entities added : %i", len(entities))
 
     async_add_entities(entities)
 
     return True
-
-
-
-
 
 
 class Raise3dSensor(SensorEntity):
@@ -191,7 +187,7 @@ class Raise3dSensor(SensorEntity):
 
     @property
     def extra_state_attributes(self):
-        """extra attribute."""
+        """Extra attribute."""
         return None
 
     @property

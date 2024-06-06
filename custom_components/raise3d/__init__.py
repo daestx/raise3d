@@ -148,7 +148,7 @@ class Raise3dHub:
         try:
             update_result = await self.fetch_raise3d_data()
         except Exception as e:
-            _LOGGER.debug("Exception: %s, args: %s", e.message, e.args))
+            _LOGGER.debug("Exception: %s, args: %s", e.message, e.args)
             update_result = False
 
         if update_result:
