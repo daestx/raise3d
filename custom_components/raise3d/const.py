@@ -1,7 +1,7 @@
 """Constants for Raise3D printer configuration."""
 from logging import Logger, getLogger
 
-from homeassistant.const import (
+""" from homeassistant.const import (
     UnitOfTime,
     PERCENTAGE,
     UnitOfTemperature,
@@ -9,7 +9,7 @@ from homeassistant.const import (
     UnitOfPower,
     UnitOfEnergy,
 )
-
+ """
 
 LOGGER: Logger = getLogger(__package__)
 
