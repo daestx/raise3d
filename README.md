@@ -18,5 +18,42 @@ After reboot of Home-Assistant, this integration can be configured through the i
 Click here to install over HACS:
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=daestx&repository=raise3d&category=integration)
 
-## Enable the API
+## Raise3D API
+
+Raise3d provides an API which provides an interface to the printer via http.
+It returns printers parameter in a JSON format.  
+
+You can browse the API documentation by visiting http://xxx.xxx.xxx.xxx:10800 (on behalf of the printer IP address) 
+to see how to use the API. A copy of mine is stored [here][doc/] (download html and api_files folder) 
+
+The Raise3D API is deactivated by default, and it's a little bit tricky to activate it. However, it can be 
+switched on via the printers touch display. To do this, simply tap on the cogwheel symbol in top right corner and follow
+this step by step instruction
+
+1. Secure Password
+
+   Go to the menu entry **Machine > More Settings > Privacy and Security** and tap on **Secure Settings**
+   
+   Click on the switch **Secure Settings and Secure password**
+   
+   A new window will pop up and you need to tap on the eye symbol to see the secure password. Please write down this password
+   
+  <img src="doc/pic/secure_pass.png" width="30%" /> <img src="doc/pic/developer.png" width="30%" />
+  
+2. Enable API
+   
+   Go to the menu entry **Machine > Developer** and tap on **Enable Remote Access API** if it is not enabled yet
+   
+   A new window will be displayed. Please enter the secure password fron step 1. If the correct password is entered
+   a **Secure password verification** is displayed. Please tap on next. Then a message is displayed that the API is enabled.
+   
+   <img src="doc/pic/ra_password.png" width="30%" /><img src="doc/pic/verification.png" width="30%" /><img src="doc/pic/api_activated.png" width="30%" />
+   
+3.	Access passord
+
+	Go to the menu entry **Machine > Developer > Access passord** 
+	
+	A new window will pop up and you need to tap on the eye symbol to see the secure password. Please write down this password
+	
+	<img src="doc/pic/ra_password.png" width="30%" />
 
