@@ -51,9 +51,23 @@ this step by step instruction
    
 3.	Access passord
 
-	Go to the menu entry **Machine > Developer > Access passord** 
+	Go to the menu entry **Machine > Developer > Access password** 
 	
 	A new window will pop up and you need to tap on the eye symbol to see the secure password. Please write down this password
 	
 	<img src="doc/pic/ra_password.png" width="30%" />
 
+## Printer connection setup
+
+<img src="doc/pic/setup.png" width="50%" />
+
+In oder to exhcnage data between Home Assistant and the printer,
+the HACS componen, it is necessary to configure corresponding configuration parameter when adding a new device.
+
+The following Information must be provided
+
+* The Name of the device: Please name the device as you like
+* URL or IP Address: In general you need to put in here the device IP of the printer in your local network
+* Üort configuration: The standard port is 10800
+* printer password: Put in the **Access password**
+* Polling Frequency: This parameter defines how often new data will be polled from the device
