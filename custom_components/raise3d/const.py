@@ -34,17 +34,57 @@ ATTR_MODEL = "Pro2"
 
 #Printer System Information
 PRINTER_SYSTEM_INFORMATION = {
-    "L_serial_number": [
+    "serial_number": [
         "Serial number",
-        "L_serial_number",
+        "Serial_number",
         None,
-        None,
+        None
     ],
-    "L_api_version": [
+    "api_version": [
         "API version",
-        "L_api_version",
+        "api_version",
         None,
-        "mdi:alert-circle",
+        None
+    ],
+    "firmware_version": [
+        "Firmware version",
+        "firmware_version",
+        None,
+        None
+    ],
+    "machine_id": [
+        "Machine ID",
+        "machine_id",
+        None,
+        None
+    ],
+    "model": [
+        "Model",
+        "model",
+        None,
+        None
+    ],
+    "nozzies_num": [
+        "Number of nozzles",
+        "nozzies_num",
+        None,
+        None
+    ],
+    "storage_available": [
+        "Availabe storage",
+        "storage_available",
+        None,
+        None
+    ],
+    "version": [
+        "Version",
+        "version",
+        None,
+        None
     ]
+
+
+
+
 }
 

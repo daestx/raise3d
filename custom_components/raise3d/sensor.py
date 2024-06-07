@@ -38,7 +38,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Setup entry.""" 
+    """Setup entry."""
     hub_name = entry.data[CONF_NAME]
     hub = hass.data[DOMAIN][hub_name]["hub"]
 
@@ -55,7 +55,7 @@ async def async_setup_entry(
 
     for name, key, unit, icon in PRINTER_SYSTEM_INFORMATION.values():
         sensor = Raise3dSensor(
-            hub_name, hub, device_info, "system", name, key, unit, icon
+            hub_name, hub, device_info, "data", name, key, unit, icon
         )
         entities.append(sensor)
 
@@ -182,6 +182,7 @@ class Raise3dSensor(SensorEntity):
     def state(self):
         """Return the state of the sensor."""
         current_value = None
+        #current_value = self._hub.data[self._prefix][self._key]
         current_value = self._hub.data[self._prefix][self._key]
         return current_value
 
