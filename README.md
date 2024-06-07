@@ -49,7 +49,7 @@ this step-by-step instruction.
    A new window will be displayed. Please enter the secure password from step 1. If the correct password is entered
    a **Secure password verification** is displayed. Please tap on next. Then a message is displayed that the API is enabled.
 
-   <img src="doc/pic/ra_password.png" width="30%" /><img src="doc/pic/verification.png" width="30%" /><img src="doc/pic/api_activated.png" width="30%" />
+   <img src="doc/pic/enter_pw.png" width="30%" /><img src="doc/pic/verification.png" width="30%" /><img src="doc/pic/api_activated.png" width="30%" />
 
 3.	Access passord
 
