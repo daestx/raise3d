@@ -47,11 +47,11 @@ def Raise3d_entries(hass: HomeAssistant):
     )
 
 """ https://developers.home-assistant.io/docs/config_entries_config_flow_handler/
-    This handler will manage the creation of entries from user input, discovery or 
+    This handler will manage the creation of entries from user input, discovery or
     other sources (like Home Assistant OS).
 """
 class Raise3dFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
-    """Config flow for Raise3D"""
+    """Config flow for Raise3D."""
 
     VERSION = 1
     CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_POLL
@@ -67,7 +67,7 @@ class Raise3dFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input: None = None):
         """Handle a flow initialized by the user."""
         errors = {}
-        
+
         if user_input is not None:
             host = user_input[CONF_HOST]
 
