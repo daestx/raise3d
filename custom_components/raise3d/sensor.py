@@ -38,7 +38,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Setup entry."""
+    """Do the setup entry."""
     hub_name = entry.data[CONF_NAME]
     hub = hass.data[DOMAIN][hub_name]["hub"]
 
