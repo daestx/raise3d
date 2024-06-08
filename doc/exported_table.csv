@@ -1,0 +1,17 @@
+"parameter","type","description"
+"status","int","1-ok 0-failed"
+"file_name","string","absolute path  of printed file including file name"
+"print_progress","float","percentage of current job print progress, range(0~100)"
+"printed_layer","int","the number of layers printed with current job"
+"total_layer","int","the number of total layers with current job"
+"printed_time","long","printed  in seconds of current job"
+"total_time","long","the total print time estimated for current job in seconds"
+"job_id","string","id of job which is used to distinguish between different jobs"
+"job_status","string","The running status of current job.
+									Possible status is
+									paused - the printer has paused current job
+									running - current job is printing
+									completed - current job has been completed successfully
+									stopped - current job has been stopped"
+"code","int","error code"
+"msg","string","error message"

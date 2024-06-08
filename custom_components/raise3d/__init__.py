@@ -140,7 +140,7 @@ class Raise3dHub:
             self._unsub_interval_method()
             self._unsub_interval_method = None
 
-    async def async_refresh_api_data(self, _now: Optional[int] = None) -> None:
+    async def async_refresh_api_data(self, _now: Optional[int] = None) -> None:  # noqa: UP007
         """Time to update."""
         if not self._sensors:
             return
@@ -148,7 +148,7 @@ class Raise3dHub:
         try:
             update_result = await self.fetch_raise3d_data()
         except Exception as e:
-            _LOGGER.debug("Exception: %s, args: %s", e.message, e.args)
+            _LOGGER.debug("Exception: %s", repr(e.args))
             update_result = False
 
         if update_result:
@@ -167,29 +167,83 @@ class Raise3dHub:
         return True
 
 
+def mergeJsonObjects(obj_1, obj_2):
+    """Do merge two JSON objects from API."""
+    hold_json_obj = {}
+    for item_1 in obj_1:
+        # We'll also loop through every item in the json_obj_2 dictionary
+        for item_2 in obj_2:
+            # Now let's compare whether they are the same KEYS (not values)
+            if item_1 == item_2:
+                # if they match, we create a list to store the array
+                hold_array = {**obj_1[item_1], **obj_2[item_1]}
+
+                # finally putting the array to our hold_json_obj
+                hold_json_obj[item_1] = hold_array
+            else:
+                # if they don't match, check if the key already exists in the
+                # hold_json_obj because we might be iterating json_obj_2 for the second time.
+                if item_2 not in hold_json_obj:
+                    # add the ummatched array to hold_json_obj
+                    hold_json_obj[item_2] = obj_2[item_2]
+
+    return hold_json_obj
+
+
 def fetch_data(url: str, port: int, password: str):
     """Get data."""
-    # instantiate static variable for token
-    if not hasattr(fetch_data, "token"):
-        fetch_data.token = 0
-
-    _LOGGER.debug("Fetching raise3d datas with REST API")
-    _LOGGER.debug("Parameter: %s, %s, %s", url, port, password)
+    JSON_data = {}
+    token = None
+    # _LOGGER.debug("Fetching raise3d datas with REST API")
+    # _LOGGER.debug("Parameter: %s, %s, %s", url, port, password)
 
     printer = r3d.raise3d()
 
     # get new token
-    rc = printer.getLogin(url, str(port), password)
-    if rc is None:
+    token = printer.getLogin(url, str(port), password)
+    if token is None:
         _LOGGER.debug("Return value: is none")
-        return
+        return None
 
-    fetch_data.token = rc
-    _LOGGER.debug("Return value: %s", rc)
+    # get info
+    rc = printer.getInfo(url, str(port), token)
+    if not rc is None:  # noqa: E714
+        JSON_data = rc
 
-    # get printer status
-    rc = printer.getInfo(url, str(port), fetch_data.token)
-    if rc is None:
-        fetch_data.token = 0
+    # get camera info
+    rc = printer.getCameraInformation(url, str(port), token)
+    if not rc is None:  # noqa: E714
+        # merge JSON data
+        JSON_data = mergeJsonObjects(JSON_data, rc)
 
-    return rc
+    # get printer running status
+    rc = printer.getPrinterRunningStatus(url, str(port), token)
+    if not rc is None:  # noqa: E714
+        # merge JSON data
+        JSON_data = mergeJsonObjects(JSON_data, rc)
+
+    # get printer getPrinterBasicInformation
+    rc = printer.getPrinterBasicInformation(url, str(port), token)
+    if not rc is None:  # noqa: E714
+        # merge JSON data
+        JSON_data = mergeJsonObjects(JSON_data, rc)
+
+    # get printer left nozzle information
+    rc = printer.getLeftNozzleInformation(url, str(port), token)
+    if not rc is None:  # noqa: E714
+        # merge JSON data
+        JSON_data = mergeJsonObjects(JSON_data, rc)
+
+    # get printer right nozzle information
+    rc = printer.getRightNozzleInformation(url, str(port), token)
+    if not rc is None:  # noqa: E714
+        # merge JSON data
+        JSON_data = mergeJsonObjects(JSON_data, rc)
+
+    # get printer current job status
+    rc = printer.getCurrentJob(url, str(port), token)
+    if not rc is None:  # noqa: E714
+        # merge JSON data
+        JSON_data = mergeJsonObjects(JSON_data, rc)
+
+    return JSON_data

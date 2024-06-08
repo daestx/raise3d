@@ -22,7 +22,12 @@ from .const import (
     DOMAIN,
     ATTR_MANUFACTURER,
     ATTR_MODEL,
-    PRINTER_SYSTEM_INFORMATION
+    PRINTER_SYSTEM_INFORMATION,
+    CAMERA_INFORMATION,
+    PRINTER_RUNNING_STATUS,
+    PRINTER_BASIC_INFORMATION,
+    PRINTER_NOZZLE_INFORMATION,
+    PRINTER_CURRENT_JOB_INFORMATION
 )
 
 from homeassistant.core import callback
@@ -54,6 +59,36 @@ async def async_setup_entry(
     entities = []
 
     for name, key, unit, icon in PRINTER_SYSTEM_INFORMATION.values():
+        sensor = Raise3dSensor(
+            hub_name, hub, device_info, "data", name, key, unit, icon
+        )
+        entities.append(sensor)
+
+    for name, key, unit, icon in CAMERA_INFORMATION.values():
+        camera = Raise3dSensor(
+            hub_name, hub, device_info, "data", name, key, unit, icon
+        )
+        entities.append(camera)
+
+    for name, key, unit, icon in PRINTER_RUNNING_STATUS.values():
+        status = Raise3dSensor(
+            hub_name, hub, device_info, "data", name, key, unit, icon
+        )
+        entities.append(status)
+
+    for name, key, unit, icon in PRINTER_BASIC_INFORMATION.values():
+        basic_info = Raise3dSensor(
+            hub_name, hub, device_info, "data", name, key, unit, icon
+        )
+        entities.append(basic_info)
+
+    for name, key, unit, icon in PRINTER_NOZZLE_INFORMATION.values():
+        sensor = Raise3dSensor(
+            hub_name, hub, device_info, "data", name, key, unit, icon
+        )
+        entities.append(sensor)
+
+    for name, key, unit, icon in PRINTER_CURRENT_JOB_INFORMATION.values():
         sensor = Raise3dSensor(
             hub_name, hub, device_info, "data", name, key, unit, icon
         )
@@ -142,15 +177,15 @@ class Raise3dSensor(SensorEntity):
 
     async def async_added_to_hass(self):
         """Register callbacks."""
-        _LOGGER.debug("add to hass_pre")
+        #_LOGGER.debug("add to hass_pre")
         self._hub.async_add_raise3d_sensor(self._api_data_updated)
-        _LOGGER.debug("add to hass_post")
+        #_LOGGER.debug("add to hass_post")
 
     async def async_will_remove_from_hass(self) -> None:
         """Register callbacks."""
-        _LOGGER.debug("remove from hass_pre")
+        #_LOGGER.debug("remove from hass_pre")
         self._hub.async_remove_raise3d_sensor(self._api_data_updated)
-        _LOGGER.debug("remove from hass_pre")
+        #_LOGGER.debug("remove from hass_pre")
 
     @callback
     def _api_data_updated(self):
@@ -182,8 +217,14 @@ class Raise3dSensor(SensorEntity):
     def state(self):
         """Return the state of the sensor."""
         current_value = None
-        #current_value = self._hub.data[self._prefix][self._key]
-        current_value = self._hub.data[self._prefix][self._key]
+        # current_value = self._hub.data[self._prefix][self._key]
+        if not self._hub.data is None:  # noqa: E714
+            try:
+                current_value = self._hub.data[self._prefix][self._key]
+            except Exception as e:
+                # something wen wrong
+                _LOGGER.debug("Exception: %s", repr(e.args))
+
         return current_value
 
     @property
@@ -197,6 +238,6 @@ class Raise3dSensor(SensorEntity):
         return False
 
     @property
-    def device_info(self) -> Optional[dict[str, Any]]:
+    def device_info(self) -> Optional[dict[str, Any]]:  # noqa: UP007
         """Device info."""
         return self._device_info
