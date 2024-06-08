@@ -42,9 +42,9 @@ def host_valid(ip):
 @callback
 def Raise3d_entries(hass: HomeAssistant):
     """Return the hosts already configured."""
-    return set(
+    return {
         entry.data[CONF_HOST] for entry in hass.config_entries.async_entries(DOMAIN)
-    )
+    }
 
 """ https://developers.home-assistant.io/docs/config_entries_config_flow_handler/
     This handler will manage the creation of entries from user input, discovery or

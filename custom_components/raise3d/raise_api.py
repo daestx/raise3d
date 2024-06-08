@@ -13,6 +13,7 @@ class raise3d:
     """Class for API functions."""
 
     def requestHttp(self, url):
+        """Receive data by accessing the printer URL."""
         retry = urllib3.Retry(
             total=3,
             raise_on_status=True,
@@ -25,7 +26,7 @@ class raise3d:
             retries=retry,
             timeout=timeout
         )
-        """Receive data by accessing the printer URL."""
+
         try:
             response = http.request('GET', url)
             data = response.data
