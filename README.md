@@ -34,30 +34,30 @@ this step-by-step instruction.
 
 ### Secure Password (1st step)
 
-   Go to the menu entry **Machine > More Settings > Privacy and Security** and tap on **Secure Settings**
+Go to the menu entry **Machine > More Settings > Privacy and Security** and tap on **Secure Settings**
 
-   Click on the switch **Secure Settings and Secure password**
+Click on the switch **Secure Settings and Secure password**
 
-   A new window will pop up and you need to tap on the eye symbol to see the secure password. Please write down this password
+A new window will pop up and you need to tap on the eye symbol to see the secure password. Please write down this password
 
-  <img src="doc/pic/secure_pass.png" width="30%" /> <img src="doc/pic/developer.png" width="30%" />
+<img src="doc/pic/secure_pass.png" width="30%" /> <img src="doc/pic/developer.png" width="30%" />
 
 ### Enable API (2nd step)
 
-   Go to the menu entry **Machine > Developer** and tap on **Enable Remote Access API** if it is not enabled yet
+Go to the menu entry **Machine > Developer** and tap on **Enable Remote Access API** if it is not enabled yet
 
-   A new window will be displayed. Please enter the secure password from step 1. If the correct password is entered
-   a **Secure password verification** is displayed. Please tap on next. Then a message is displayed that the API is enabled.
+A new window will be displayed. Please enter the secure password from step 1. If the correct password is entered
+a **Secure password verification** is displayed. Please tap on next. Then a message is displayed that the API is enabled.
 
-   <img src="doc/pic/enter_pw.png" width="30%" /><img src="doc/pic/verification.png" width="30%" /><img src="doc/pic/api_activated.png" width="30%" />
+<img src="doc/pic/enter_pw.png" width="30%" /><img src="doc/pic/verification.png" width="30%" /><img src="doc/pic/api_activated.png" width="30%" />
 
 ### Access password (3rd step)
 
-	Go to the menu entry **Machine > Developer > Access password**
+Go to the menu entry **Machine > Developer > Access password**
 
-	A new window will pop up and you need to tap on the eye symbol to see the secure password. Please write down this password
+A new window will pop up and you need to tap on the eye symbol to see the secure password. Please write down this password
 
-	<img src="doc/pic/ra_password.png" width="30%" />
+<img src="doc/pic/ra_password.png" width="30%" />
 
 ## Printer connection setup
 
