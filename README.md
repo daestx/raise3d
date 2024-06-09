@@ -32,7 +32,7 @@ The Raise3D API is deactivated by default, and it's a little bit tricky to activ
 switched on via the printers touch display. To do this, simply tap on the cogwheel symbol in top right corner and follow
 this step-by-step instruction.
 
-1. Secure Password
+### Secure Password (1st step)
 
    Go to the menu entry **Machine > More Settings > Privacy and Security** and tap on **Secure Settings**
 
@@ -42,7 +42,7 @@ this step-by-step instruction.
 
   <img src="doc/pic/secure_pass.png" width="30%" /> <img src="doc/pic/developer.png" width="30%" />
 
-2. Enable API
+### Enable API (2nd step)
 
    Go to the menu entry **Machine > Developer** and tap on **Enable Remote Access API** if it is not enabled yet
 
@@ -51,7 +51,7 @@ this step-by-step instruction.
 
    <img src="doc/pic/enter_pw.png" width="30%" /><img src="doc/pic/verification.png" width="30%" /><img src="doc/pic/api_activated.png" width="30%" />
 
-3.	Access password
+### Access password (3rd step)
 
 	Go to the menu entry **Machine > Developer > Access password**
 
@@ -71,5 +71,5 @@ The following Information must be provided
 * The Name of the device: Please name the device as you like
 * URL or IP Address: In general you need to put in here the device IP of the printer in your local network. A URL should be fine as well.
 * Port configuration: The standard port is **10800**
-* printer password: Put in the [**Access password**](#Raise3D-API)
+* printer password: Put in the [**Access password**](#Access-password)
 * Polling Frequency: This parameter defines how often new data will be polled from the device. The default value is 30s.
