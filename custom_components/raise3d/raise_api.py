@@ -357,3 +357,10 @@ class raise3d:
 
         # in case of error or timeout
         return None
+
+    def getSimulatedData(self):
+        """Get simulated data."""
+        with open('doc/api_data.json') as myfile:
+            data = json.load(myfile)
+
+        return data

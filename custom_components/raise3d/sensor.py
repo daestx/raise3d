@@ -177,15 +177,15 @@ class Raise3dSensor(SensorEntity):
 
     async def async_added_to_hass(self):
         """Register callbacks."""
-        #_LOGGER.debug("add to hass_pre")
+        # _LOGGER.debug("add to hass_pre")
         self._hub.async_add_raise3d_sensor(self._api_data_updated)
-        #_LOGGER.debug("add to hass_post")
+        # _LOGGER.debug("add to hass_post")
 
     async def async_will_remove_from_hass(self) -> None:
         """Register callbacks."""
-        #_LOGGER.debug("remove from hass_pre")
+        # _LOGGER.debug("remove from hass_pre")
         self._hub.async_remove_raise3d_sensor(self._api_data_updated)
-        #_LOGGER.debug("remove from hass_pre")
+        # _LOGGER.debug("remove from hass_pre")
 
     @callback
     def _api_data_updated(self):
@@ -221,9 +221,10 @@ class Raise3dSensor(SensorEntity):
         if not self._hub.data is None:  # noqa: E714
             try:
                 current_value = self._hub.data[self._prefix][self._key]
-            except Exception as e:
-                # something wen wrong
-                _LOGGER.debug("Exception: %s", repr(e.args))
+            except Exception as e:  # noqa: F841
+                # something went wrong
+                msg = e.args  # noqa: F841
+                # _LOGGER.debug("Exception: %s", repr(msg))
 
         return current_value
 

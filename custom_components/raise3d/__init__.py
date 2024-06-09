@@ -190,6 +190,9 @@ def mergeJsonObjects(obj_1, obj_2):
     return hold_json_obj
 
 
+CONST_DEBUG = False
+
+
 def fetch_data(url: str, port: int, password: str):
     """Get data."""
     JSON_data = {}
@@ -202,48 +205,58 @@ def fetch_data(url: str, port: int, password: str):
     # get new token
     token = printer.getLogin(url, str(port), password)
     if token is None:
-        _LOGGER.debug("Return value: is none")
-        return None
+        _LOGGER.debug("Token not received!")
 
     # get info
-    rc = printer.getInfo(url, str(port), token)
-    if not rc is None:  # noqa: E714
-        JSON_data = rc
+    if token is not None:
+        rc = printer.getInfo(url, str(port), token)
+        if not rc is None:  # noqa: E714
+            JSON_data = rc
 
     # get camera info
-    rc = printer.getCameraInformation(url, str(port), token)
-    if not rc is None:  # noqa: E714
-        # merge JSON data
-        JSON_data = mergeJsonObjects(JSON_data, rc)
+    if token is not None:
+        rc = printer.getCameraInformation(url, str(port), token)
+        if not rc is None:  # noqa: E714
+            # merge JSON data
+            JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer running status
-    rc = printer.getPrinterRunningStatus(url, str(port), token)
-    if not rc is None:  # noqa: E714
-        # merge JSON data
-        JSON_data = mergeJsonObjects(JSON_data, rc)
+    if token is not None:
+        rc = printer.getPrinterRunningStatus(url, str(port), token)
+        if not rc is None:  # noqa: E714
+            # merge JSON data
+            JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer getPrinterBasicInformation
-    rc = printer.getPrinterBasicInformation(url, str(port), token)
-    if not rc is None:  # noqa: E714
-        # merge JSON data
-        JSON_data = mergeJsonObjects(JSON_data, rc)
+    if token is not None:
+        rc = printer.getPrinterBasicInformation(url, str(port), token)
+        if not rc is None:  # noqa: E714
+            # merge JSON data
+            JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer left nozzle information
-    rc = printer.getLeftNozzleInformation(url, str(port), token)
-    if not rc is None:  # noqa: E714
-        # merge JSON data
-        JSON_data = mergeJsonObjects(JSON_data, rc)
+    if token is not None:
+        rc = printer.getLeftNozzleInformation(url, str(port), token)
+        if not rc is None:  # noqa: E714
+            # merge JSON data
+            JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer right nozzle information
-    rc = printer.getRightNozzleInformation(url, str(port), token)
-    if not rc is None:  # noqa: E714
-        # merge JSON data
-        JSON_data = mergeJsonObjects(JSON_data, rc)
+    if token is not None:
+        rc = printer.getRightNozzleInformation(url, str(port), token)
+        if not rc is None:  # noqa: E714
+            # merge JSON data
+            JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer current job status
-    rc = printer.getCurrentJob(url, str(port), token)
-    if not rc is None:  # noqa: E714
-        # merge JSON data
-        JSON_data = mergeJsonObjects(JSON_data, rc)
+    if token is not None:
+        rc = printer.getCurrentJob(url, str(port), token)
+        if not rc is None:  # noqa: E714
+            # merge JSON data
+            JSON_data = mergeJsonObjects(JSON_data, rc)
+
+    if CONST_DEBUG is True:
+        # simulate recorded data from file
+        JSON_data = printer.getSimulatedData()
 
     return JSON_data
