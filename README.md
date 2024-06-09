@@ -71,5 +71,5 @@ The following Information must be provided
 * The Name of the device: Please name the device as you like
 * URL or IP Address: In general you need to put in here the device IP of the printer in your local network. A URL should be fine as well.
 * Port configuration: The standard port is **10800**
-* printer password: Put in the [**Access password**](#Access-password)
+* printer password: Put in the [**Access password**](#Access-password-(3rd-step))
 * Polling Frequency: This parameter defines how often new data will be polled from the device. The default value is 30s.
