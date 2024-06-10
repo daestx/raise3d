@@ -191,7 +191,7 @@ def mergeJsonObjects(obj_1, obj_2):
 
 
 # switch on simulation data
-CONST_DEBUG = True
+CONST_DEBUG = False
 
 
 def fetch_data(url: str, port: int, password: str):
@@ -206,7 +206,7 @@ def fetch_data(url: str, port: int, password: str):
     # get new token
     token = printer.getLogin(url, str(port), password)
     if token is None:
-        _LOGGER.debug("Token not received!")
+        #_LOGGER.debug("Token not received!")
 
     # get info
     if token is not None:

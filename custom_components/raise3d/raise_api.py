@@ -5,6 +5,7 @@ import time
 import json
 import urllib3
 import logging
+import requests
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -27,13 +28,17 @@ class raise3d:
             timeout=timeout
         )
 
+        # disable urllib3 Retrying warning messages to not clutter log files
+        logging.getLogger(
+            requests.packages.urllib3.__package__).setLevel(logging.ERROR)
+
         try:
             response = http.request('GET', url)
             data = response.data
             values = json.loads(data)
             return values
         except Exception as e:
-            _LOGGER.debug("Exception: %s", repr(e.args))
+            # _LOGGER.debug("Exception: %s", repr(e.args))
             return {'status': 0}
 
     def calc_hash(self, plain):
