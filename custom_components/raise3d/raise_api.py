@@ -37,7 +37,7 @@ class raise3d:
             data = response.data
             values = json.loads(data)
             return values
-        except Exception as e:
+        except Exception as e:  # noqa: F841
             # _LOGGER.debug("Exception: %s", repr(e.args))
             return {'status': 0}
 

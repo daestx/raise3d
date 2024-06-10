@@ -9,7 +9,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
-from .helpers import float_to_hex
+
 
 REDACT_CONFIG = {"unique_id", "host"}
 REDACT_INVERTER = {"identifiers", "C_SerialNumber"}
@@ -18,10 +18,11 @@ REDACT_BATTERY = {"identifiers", "B_SerialNumber"}
 
 
 def format_values(format_input) -> Any:
+    """Furmat values."""
     if isinstance(format_input, dict):
         for name, value in iter(format_input.items()):
             if isinstance(value, float):
-                display_value = float_to_hex(value)
+                display_value = 0
             else:
                 display_value = hex(value) if isinstance(value, int) else value
 
