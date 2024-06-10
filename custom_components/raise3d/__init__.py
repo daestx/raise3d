@@ -190,7 +190,8 @@ def mergeJsonObjects(obj_1, obj_2):
     return hold_json_obj
 
 
-CONST_DEBUG = False
+# switch on simulation data
+CONST_DEBUG = True
 
 
 def fetch_data(url: str, port: int, password: str):
@@ -210,48 +211,48 @@ def fetch_data(url: str, port: int, password: str):
     # get info
     if token is not None:
         rc = printer.getInfo(url, str(port), token)
-        if not rc is None:  # noqa: E714
+        if rc is not None:
             JSON_data = rc
 
     # get camera info
     if token is not None:
         rc = printer.getCameraInformation(url, str(port), token)
-        if not rc is None:  # noqa: E714
+        if rc is not None:
             # merge JSON data
             JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer running status
     if token is not None:
         rc = printer.getPrinterRunningStatus(url, str(port), token)
-        if not rc is None:  # noqa: E714
+        if rc is not None:
             # merge JSON data
             JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer getPrinterBasicInformation
     if token is not None:
         rc = printer.getPrinterBasicInformation(url, str(port), token)
-        if not rc is None:  # noqa: E714
+        if rc is not None:
             # merge JSON data
             JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer left nozzle information
     if token is not None:
         rc = printer.getLeftNozzleInformation(url, str(port), token)
-        if not rc is None:  # noqa: E714
+        if rc is not None:
             # merge JSON data
             JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer right nozzle information
     if token is not None:
         rc = printer.getRightNozzleInformation(url, str(port), token)
-        if not rc is None:  # noqa: E714
+        if rc is not None:
             # merge JSON data
             JSON_data = mergeJsonObjects(JSON_data, rc)
 
     # get printer current job status
     if token is not None:
         rc = printer.getCurrentJob(url, str(port), token)
-        if not rc is None:  # noqa: E714
+        if rc is not None:
             # merge JSON data
             JSON_data = mergeJsonObjects(JSON_data, rc)
 
