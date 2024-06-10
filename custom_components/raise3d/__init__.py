@@ -205,8 +205,8 @@ def fetch_data(url: str, port: int, password: str):
 
     # get new token
     token = printer.getLogin(url, str(port), password)
-    if token is None:
-        #_LOGGER.debug("Token not received!")
+    """ if token is None:
+        #_LOGGER.debug("Token not received!") """
 
     # get info
     if token is not None:
