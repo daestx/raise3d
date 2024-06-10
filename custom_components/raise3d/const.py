@@ -38,35 +38,35 @@ PRINTER_SYSTEM_INFORMATION = {
         "Serial number",
         "Serial_number",
         None,
-        None
+        "mdi-numeric"
     ],
 
     "api_version": [
         "API version",
         "api_version",
         None,
-        None
+        "mdi-numeric"
     ],
 
     "battery": [
         "Battery voltage",
         "battery",
         None,
-        None
+        "mdi-battery-outline"
     ],
 
     "brightness": [
         "Screen brightness",
         "brightness",
         None,
-        None
+        "mdi-brightness-6"
     ],
 
     "date_time": [
         "UTC Time",
         "date_time",
         None,
-        None
+        "mdi-calendar-clock"
     ],
 
     "firmware_version": [
@@ -87,7 +87,7 @@ PRINTER_SYSTEM_INFORMATION = {
         "Printer ID",
         "machine_id",
         None,
-        None
+        "mdi-printer-3d"
     ],
 
     "machine_ip": [
@@ -120,7 +120,7 @@ PRINTER_SYSTEM_INFORMATION = {
         "Availabe storage",
         "storage_available",
         None,
-        None
+        "mdi-database"
     ],
 
     "update": [
@@ -134,7 +134,7 @@ PRINTER_SYSTEM_INFORMATION = {
         "Version",
         "version",
         None,
-        None
+        "mdi-numeric"
     ]
 }
 
@@ -143,28 +143,28 @@ CAMERA_INFORMATION = {
         "Camera server URI",
         "camerserver_URI",
         None,
-        None
+        "mdi-web"
     ],
 
     "is_camera_connected": [
         "Camera status",
         "is_camera_connected",
         None,
-        None
+        "mdi-webcam"
     ],
 
     "password": [
         "Password",
         "password",
         None,
-        None
+        "mdi-key"
     ],
 
     "user_name": [
         "User",
         "user_name",
         None,
-        None
+        "mdi-account"
     ]
 }
 
@@ -182,14 +182,14 @@ PRINTER_BASIC_INFORMATION = {
         "Current fan speed",
         "fan_cur_speed",
         None,
-        None
+        "mdi-fan"
     ],
 
     "fan_tar_speed": [
         "Target fan speed",
         "fan_tar_speed",
         None,
-        None
+        "mdi-fan"
     ],
 
     "feed_cur_rate": [
@@ -210,14 +210,14 @@ PRINTER_BASIC_INFORMATION = {
         "Current heatbed temp",
         "heatbed_cur_temp",
         None,
-        None
+        "mdi-thermometer"
     ],
 
     "heatbed_tar_temp": [
         "Target heatbed temp",
         "heatbed_tar_temp",
         None,
-        None
+        "mdi-thermometer"
     ]
 }
 
@@ -284,7 +284,7 @@ PRINTER_CURRENT_JOB_INFORMATION = {
         "File name",
         "file_name",
         None,
-        None
+        "mdi-file-outline"
     ],
 
     "print_progress": [
@@ -298,28 +298,28 @@ PRINTER_CURRENT_JOB_INFORMATION = {
         "Printerd layers",
         "printed_layer",
         None,
-        None
+        "mdi-layers"
     ],
 
     "total_layer": [
         "Total layers",
         "total_layer",
         None,
-        None
+        "mdi-layers"
     ],
 
     "printed_time": [
         "Printing time",
         "printed_time",
         None,
-        None
+        "mdi-clock"
     ],
 
     "total_time": [
         "Total time",
         "total_time",
         None,
-        None
+        "mdi-clock"
     ],
 
     "job_id": [
