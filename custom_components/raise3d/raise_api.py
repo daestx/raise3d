@@ -11,7 +11,7 @@ _LOGGER = logging.getLogger(__name__)
 
 class helper:
     """Helper functions."""
-    
+
     def convSec2Time(self, _seconds):
         """Convert seconds to time format."""
         Convertedformat = time.strftime("%H:%M:%S", time.gmtime(_seconds))
