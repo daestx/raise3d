@@ -114,7 +114,7 @@ PRINTER_SYSTEM_INFORMATION = {
         "Number of nozzles",
         "nozzies_num",
         None,
-        None
+        "mdi:printer-3d-nozzle"
     ],
     "storage_available": [
         "Availabe storage",
@@ -196,28 +196,28 @@ PRINTER_BASIC_INFORMATION = {
         "Current nozzle feed speed",
         "feed_cur_rate",
         None,
-        None
+        "mdi:printer-3d-nozzle-outline"
     ],
 
     "feed_tar_rate": [
         "Target nozzle feed speed",
         "feed_tar_rate",
         None,
-        None
+        "mdi:printer-3d-nozzle-outline"
     ],
 
     "heatbed_cur_temp": [
         "Current heatbed temp",
         "heatbed_cur_temp",
         None,
-        "mdi-thermometer"
+        "mdi-heat-wave"
     ],
 
     "heatbed_tar_temp": [
         "Target heatbed temp",
         "heatbed_tar_temp",
         None,
-        "mdi-thermometer"
+        "mdi-heat-wave"
     ]
 }
 
@@ -226,56 +226,56 @@ PRINTER_NOZZLE_INFORMATION = {
         "Left nozzle current extrusion speed",
         "LN_flow_cur_rate",
         None,
-        None
+        "mdi:printer-3d-nozzle-outline"
     ],
 
     "LN_flow_tar_rate": [
         "Left nozzle target extrusion speed",
         "LN_flow_tar_rate",
         None,
-        None
+        "mdi:printer-3d-nozzle-outline"
     ],
 
     "LN_nozzle_cur_temp": [
         "Left nozzle current temperature",
         "LN_nozzle_cur_temp",
         None,
-        None
+        "mdi:printer-3d-nozzle-heat"
     ],
 
     "LN_nozzle_tar_temp": [
         "Left nozzle target temperature",
         "LN_nozzle_tar_temp",
         None,
-        None
+        "mdi:printer-3d-nozzle-heat"
     ],
 
     "RN_flow_cur_rate": [
         "Right nozzle current extrusion speed",
         "RN_flow_cur_rate",
         None,
-        None
+        "mdi:printer-3d-nozzle-outline"
     ],
 
     "RN_flow_tar_rate": [
         "Right nozzle target extrusion speed",
         "RN_flow_tar_rate",
         None,
-        None
+        "mdi:printer-3d-nozzle-outline"
     ],
 
     "RN_nozzle_cur_temp": [
         "Right nozzle current temperature",
         "RN_nozzle_cur_temp",
         None,
-        None
+        "mdi:printer-3d-nozzle-heat"
     ],
 
     "RN_nozzle_tar_temp": [
         "Right nozzle target temperature",
         "RN_nozzle_tar_temp",
         None,
-        None
+        "mdi:printer-3d-nozzle-heat"
     ]
 }
 
@@ -291,7 +291,7 @@ PRINTER_CURRENT_JOB_INFORMATION = {
         "Print progress",
         "print_progress",
         None,
-        None
+        "mdi:progress-helper"
     ],
 
     "printed_layer": [
@@ -333,7 +333,7 @@ PRINTER_CURRENT_JOB_INFORMATION = {
         "Job status",
         "job_status",
         None,
-        None
+        "mdi:bell-circle-outline"
     ]
 }
 
