@@ -9,6 +9,14 @@ import requests
 
 _LOGGER = logging.getLogger(__name__)
 
+class helper:
+    """Helper functions."""
+    def convSec2Time(self, _seconds):
+        """Convert seconds to time format."""
+        Convertedformat = time.strftime("%H:%M:%S", time.gmtime(_seconds))
+        return Convertedformat
+
+
 
 class raise3d:
     """Class for API functions."""
@@ -304,6 +312,16 @@ class raise3d:
 
         if json["status"] == 1:
             del json['status']
+            # convert time from s in hh:mm:ss
+            _seconds = json['data']['printed_time']
+            _time = helper.convSec2Time(self, _seconds)
+            json['data']['printed_time'] = _time
+            # convert time from s in hh:mm:ss
+            _seconds = json['data']['total_time']
+            _time = helper.convSec2Time(self, _seconds)
+            json['data']['total_time'] = _time
+
+
             return json
 
     def setCurrentJob(self,  url, port, token, job):
