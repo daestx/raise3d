@@ -322,6 +322,14 @@ PRINTER_CURRENT_JOB_INFORMATION = {
         "mdi:clock"
     ],
 
+    "remaining_time": [
+        "Remaining time",
+        "remaining_time",
+        None,
+        "mdi:clock"
+    ],
+
+
     "job_id": [
         "Job ID",
         "job_id",

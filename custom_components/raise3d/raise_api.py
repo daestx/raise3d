@@ -314,14 +314,17 @@ class raise3d:
         if json["status"] == 1:
             del json['status']
             # convert time from s in hh:mm:ss
-            _seconds = json['data']['printed_time']
-            _time = helper.convSec2Time(self, _seconds)
+            _seconds_1 = json['data']['printed_time']
+            _time = helper.convSec2Time(self, _seconds_1)
             json['data']['printed_time'] = _time
             # convert time from s in hh:mm:ss
-            _seconds = json['data']['total_time']
-            _time = helper.convSec2Time(self, _seconds)
+            _seconds_2 = json['data']['total_time']
+            _time = helper.convSec2Time(self, _seconds_2)
             json['data']['total_time'] = _time
-
+            # calculate remaining time
+            remain = float(_seconds_2) - float(_seconds_1)
+            _time = helper.convSec2Time(self, remain)
+            json['data']['remaining_time'] = _time
 
             return json
 
